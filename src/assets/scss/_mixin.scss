@@ -1,0 +1,57 @@
+@mixin primary-btn {
+  padding: 10px 25px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  background-color: #ffc107; 
+  color: #2a2a2a; 
+
+  &:hover {
+    background-color: #e6b600; 
+  }
+  &:disabled {
+    background-color: #cc9900; 
+    cursor: not-allowed;
+  }
+}
+
+@mixin secondary-btn {
+  padding: 10px 25px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  background-color: #555555; 
+  color: #f0f0f0;
+
+  &:hover {
+    background-color: #666666; 
+  }
+}
+
+@mixin modal-content-block {
+  background-color: #3c3c3c; 
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+@mixin form-input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #555555;
+  border-radius: 6px;
+  background-color: #4d4d4d; 
+  color: #f0f0f0; 
+  font-size: 1rem;
+
+  &::placeholder {
+    color: #d9d9d9;
+  }
+  &:focus {
+    border-color: #ffc107;
+    outline: none;
+  }
+}

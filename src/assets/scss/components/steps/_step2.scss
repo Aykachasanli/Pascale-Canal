@@ -1,0 +1,86 @@
+/* İstifadə etdiyiniz əsas rəng dəyişkənlərini fərz edirik */
+$color-primary-yellow: #f8c300; /* Vurğu rəngi */
+$color-dark-background: #1e1e1e; /* Ana modal fonu (fərz edilir) */
+$color-card-dark: rgba(255, 255, 255, 0.1); /* Kontent kartlarının tünd fonu */
+$color-text-light: #ffffff; /* Açıq mətn rəngi */
+$color-text-subtle: rgba(255, 255, 255, 0.7); /* Zəif mətn rəngi */
+
+
+.step-2-summary {
+    // Sərhədlər arasında yerləşmə (padding)
+    padding: 20px 0;
+    
+    // Yuxarı hissənin başlığı
+    .summary-title {
+        color: $color-text-light;
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 25px;
+        text-align: center;
+    }
+
+    // --- Qiymət Bloku (Prix Total) ---
+    .price-total-box {
+        background-color: rgba(255, 255, 255, 0.15); // Şəkildəki yüngül açıq-tünd boz fon
+        padding: 20px;
+        border-radius: 8px;
+        text-align: center;
+        margin-bottom: 20px;
+        
+        // Qiymət Mətni (Prix total)
+        .price-label {
+            color: $color-primary-yellow; // Sarı rəngdə vurğu
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        // Məbləğ Mətni (200.00 €)
+        .price-amount {
+            color: $color-text-light;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+    }
+
+    // --- Əsər Detal Bloku (Artwork Detail) ---
+    .artwork-detail-box {
+        background-color: $color-card-dark; // Tünd fon kartı
+        padding: 15px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        gap: 15px; // Şəkil və mətn arasında məsafə
+    }
+
+    .artwork-image-container {
+        // Şəkil üçün konteyner ölçüsü
+        width: 80px; 
+        height: 80px; 
+        overflow: hidden;
+        border-radius: 4px;
+
+        .artwork-thumbnail {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; // Şəkli kəsmədən konteyneri doldurmaq üçün
+        }
+    }
+
+    .artwork-info {
+        flex-grow: 1;
+
+        .artwork-name {
+            color: $color-text-light;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .artwork-description {
+            color: $color-text-subtle;
+            font-size: 0.9rem;
+        }
+    }
+}

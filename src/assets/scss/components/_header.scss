@@ -1,0 +1,33 @@
+.header {
+  width: 100%;
+  font-family: "medium";
+  .container {
+    .row {
+      height: 130px;
+      justify-content: space-between;
+      align-items: center;
+      .logo {
+        img {
+          width: 80px;
+          filter: brightness(0) invert(0);
+        }
+      }
+      .navBar {
+        .navList {
+          display: flex;
+          gap: 30px;
+          .navItem {
+             font-family: "medium";
+             cursor: pointer;
+             font-size: 16px;
+             
+            a{
+              color: black;
+              text-transform: uppercase;
+            }
+          }
+        }
+      }
+    }
+  }
+}

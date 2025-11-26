@@ -1,0 +1,48 @@
+.smoke-trail {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 9999;
+}
+
+.smoke {
+  position: absolute;
+  width: 60px;   
+  height: 60px;
+
+
+  background: radial-gradient(
+    circle,
+    rgba(0, 0, 0, 0.20) 0%,  
+    rgba(0, 0, 0, 0.4) 25%,   
+    rgba(0, 0, 0, 0.2) 55%,   
+    rgba(0, 0, 0, 0.05) 85%,  
+    rgba(0, 0, 0, 0) 100%     
+  );
+
+  filter: blur(20px); 
+  transform: translate(-50%, -50%);
+  animation: smokeFade 2.2s ease-out forwards;
+  mix-blend-mode: multiply;
+  opacity: 0.4; 
+}
+
+
+@keyframes smokeFade {
+  0% {
+    opacity: 0.5;
+    transform: translate(-50%, -50%) scale(1) translateY(0);
+  }
+  60% {
+    opacity: 0.2;
+    transform: translate(-50%, -50%) scale(1.3) translateY(-10px);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.6) translateY(-25px);
+  }
+}

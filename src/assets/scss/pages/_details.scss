@@ -1,0 +1,175 @@
+.details-page {
+  background: #fff;
+  color: #111;
+  min-height: 100vh;
+
+  .details-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    border-bottom: 1px solid #e5e5e5;
+    padding: 1.5rem 4rem;
+
+    .back-btn {
+      font-size: 2rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #111;
+      transition: 0.3s;
+      &:hover {
+        opacity: 0.6;
+      }
+    }
+
+    .product-name {
+      font-size: 2.5rem;
+      font-weight: 700;
+      text-transform: capitalize;
+    }
+
+    .author {
+      font-size: 1rem;
+      color: #555;
+      span {
+        font-weight: 600;
+        color: #000;
+      }
+    }
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: 0.3rem;
+      text-align: center;
+      padding: 1rem 1.5rem;
+
+      .product-name {
+        font-size: 1.8rem;
+      }
+    }
+  }
+
+  /* ==== ƏSAS HİSSƏ ==== */
+  .details-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    width: 90%;
+    max-width: 1200px;
+    margin: 4rem auto;
+    align-items: flex-start;
+
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr;
+    }
+
+    .image-side {
+      img {
+        width: 100%;
+        border-radius: 16px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+      }
+    }
+
+    .info-side {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+
+      .format {
+        h2 {
+          font-size: 1.5rem;
+          margin-bottom: 1rem;
+        }
+
+        .option {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 1rem 1.5rem;
+          border: 1px solid #ddd;
+          border-radius: 12px;
+          margin-bottom: 1rem;
+          background: #fff;
+          transition: 0.3s;
+
+          &.active {
+            border-color: #000;
+          }
+
+          div {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+          }
+
+          .tag {
+            background: #ffea6a;
+            color: #111;
+            font-size: 0.8rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+          }
+
+          p {
+            font-weight: 600;
+          }
+        }
+      }
+
+      .details {
+        h2 {
+          font-size: 1.4rem;
+          margin-bottom: 0.8rem;
+        }
+        p {
+          font-size: 1rem;
+          margin-bottom: 0.4rem;
+          color: #333;
+
+          strong {
+            color: #000;
+          }
+        }
+      }
+
+      .actions {
+        display: flex;
+        gap: 1rem;
+
+        .buy-btn {
+          background: #000;
+          color: #fff;
+          border: none;
+          padding: 1rem 2rem;
+          border-radius: 8px;
+          cursor: pointer;
+          transition: 0.3s;
+
+          &:hover {
+            background: #ffea6a;
+            color: #111;
+          }
+        }
+
+        .share-btn {
+          background: transparent;
+          border: 1px solid #111;
+          padding: 1rem 2rem;
+          border-radius: 8px;
+          cursor: pointer;
+          transition: 0.3s;
+
+          &:hover {
+            background: #111;
+            color: #fff;
+          }
+        }
+      }
+    }
+  }
+}

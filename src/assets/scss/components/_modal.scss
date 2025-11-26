@@ -1,0 +1,186 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+
+.modal-box {
+  width: 80%;
+  background: #1e1e1e;
+  border-radius: 22px;
+  padding: 40px;
+  position: relative;
+  animation: fadeIn .3s ease;
+  color: white;
+  height: 100vh;
+}
+
+/* Close button */
+.close-btn {
+  position: absolute;
+  right: 25px;
+  top: 25px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+/* Title */
+.modal-title {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.modal-desc {
+  margin-top: 10px;
+  color: #bcbcbc;
+  font-size: 16px;
+}
+
+/* Step Bar */
+.step-bar {
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+
+.step-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid #777;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #777;
+    background: #2a2a2a;
+    transition: .2s;
+  }
+
+  &.active .circle {
+    border-color: #ffe570;
+    color: #ffe570;
+  }
+
+  &.done .circle {
+    background: #ffe570;
+    color: #000;
+    border-color: #ffe570;
+  }
+
+  .line {
+    width: 140px;
+    height: 3px;
+    background: #555;
+    margin-top: 6px;
+  }
+}
+
+/* Step content */
+.step-content {
+  margin-top: 40px;
+
+  .step-inner {
+    background: #2c2c2c;
+    padding: 30px;
+    border-radius: 15px;
+  }
+}
+
+/* Buttons */
+.modal-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.modal-btn {
+  padding: 12px 25px;
+  background: #333;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+.modal-btn.yellow {
+  background: #ffe570;
+  color: #000;
+}
+
+/* Floating Buttons */
+.floating-container {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 2500;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.floating-btn {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  background: #000;
+  color: #ffe570;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: .2s;
+
+  &:hover {
+    transform: scale(1.08);
+  }
+}
+
+.search-bar {
+  position: fixed;
+  right: 90px;
+  bottom: 20px;
+  background: #1f1f1f;
+  padding: 12px 20px;
+  border-radius: 14px;
+  border: 1px solid #444;
+
+  input {
+    background: transparent;
+    border: none;
+    color: white;
+    width: 200px;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.94); }
+  to { opacity: 1; transform: scale(1); }
+}

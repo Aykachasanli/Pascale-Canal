@@ -1,0 +1,52 @@
+/* Step 4: Koordinatlar (Əlaqə Məlumatları) */
+
+.step-content.step-4 {
+    
+    // Başlıq Stili
+    .step-title {
+        color: #f0f0f0; /* Açık Metin */
+        font-size: 1.4rem;
+        margin-bottom: 25px;
+        font-weight: 600;
+        text-align: left;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr; // Mobil üçün tək sütun
+        gap: 20px;
+        margin-bottom: 20px;
+        
+        @media (min-width: 600px) {
+            // Desktop/Tablet üçün iki sütun
+            grid-template-columns: 1fr 1fr;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #555; /* Sınır Rengi */
+            border-radius: 6px;
+            
+            // Fon və Mətn Rəngi
+            background-color: #424242; /* Modal fonundan biraz tünd */
+            color: #f0f0f0; /* Açık Mətn */
+            font-size: 1rem;
+            box-sizing: border-box;
+
+            &::placeholder {
+                color: #b0b0b0; /* Yer tutucu mətn rəngi */
+            }
+            
+            &:focus {
+                border-color: #ffc107; /* Əsas Rəng (Sarı Vurğu) */
+                outline: none;
+                box-shadow: 0 0 0 1px #ffc107;
+            }
+        }
+    }
+
+    .form-full-width {
+        grid-column: 1 / -1; // Tam eni tutur (əgər lazım olarsa)
+    }
+}

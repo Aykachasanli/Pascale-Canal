@@ -1,0 +1,21 @@
+@use "./variables";
+@use "./mixin";
+@use "./base";
+
+// pages
+@use "./pages/home";
+@use "./pages/details";
+
+
+// components
+@use "./components/header";
+@use "./components/mouse";
+@use "./components/customSection";
+@use "./components/footer";
+@use "./components/scrollToTopButton";
+@use "./components/modal";
+@use "./components/steps/step1";
+@use "./components/steps/step2";
+@use "./components/steps/step3";
+@use "./components/steps/step4";
+@use "./components/steps/step5";

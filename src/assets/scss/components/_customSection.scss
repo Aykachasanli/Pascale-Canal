@@ -1,0 +1,20 @@
+.section {
+  overflow: hidden;
+  position: relative;
+  &::before {
+    content: "PC";
+    position: absolute;
+    top: 13%;
+    left: calc(32% - 300px);
+    font-family: "back";
+    font-size: 300px;
+    font-weight: 900;
+    color: rgba(0, 0, 0, 0.044);
+    z-index: -1;
+    white-space: nowrap;
+    font-size: 50vw;
+    font-weight: 500;
+    position: fixed;
+    text-align: center;
+  }
+}

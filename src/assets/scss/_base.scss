@@ -1,0 +1,49 @@
+@font-face {
+  font-family: "bold";
+  src: url("../fonts/bold.ttf");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "back";
+  src: url("../fonts/back.otf");
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: "light";
+  src: url("../fonts/light.ttf");
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: "medium";
+  src: url("../fonts/medium.ttf");
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: "regular";
+  src: url("../fonts/regular.ttf");
+  font-weight: 500;
+  font-style: normal;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-decoration: none;
+  box-sizing: border-box;
+
+}
+
+.row {
+  display: flex;
+  width: 100%;
+}
+.container {
+  width: 91%;
+  margin: 0 auto;
+}

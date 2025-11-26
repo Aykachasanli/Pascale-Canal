@@ -1,0 +1,92 @@
+.scroll-top-wrapper {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
+  .search-box {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+
+    input {
+      padding: 6px 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+      width: 180px;
+    }
+
+    button {
+      padding: 6px 10px;
+      border: none;
+      background-color: #007bff;
+      color: #fff;
+      border-radius: 6px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #0056b3;
+      }
+    }
+  }
+
+  .scroll-top-btn {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    transition: transform 0.2s;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+
+    .scroll-logo {
+      width: 32px;
+      height: 32px;
+      object-fit: contain;
+    }
+
+    span {
+      font-weight: 600;
+      font-size: 14px;
+      color: #333;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .search-box {
+      input {
+        width: 140px;
+        font-size: 12px;
+      }
+
+      button {
+        padding: 5px 8px;
+        font-size: 12px;
+      }
+    }
+
+    .scroll-top-btn {
+      padding: 8px 12px;
+
+      .scroll-logo {
+        width: 24px;
+        height: 24px;
+      }
+
+      span {
+        font-size: 12px;
+      }
+    }
+  }
+}
