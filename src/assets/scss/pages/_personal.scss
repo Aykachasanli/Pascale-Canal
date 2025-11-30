@@ -1,40 +1,147 @@
+$primary-text-color: #f8f8f8;
+$secondary-bg-color: #333333;
+$main-bg-color: #222222;
+$container-max-width: 1200px;
+
 .personal {
-  background-color: #222222;
+  background-color: $main-bg-color;
   padding-top: 50px;
-//   margin-bottom: 50px;
   position: relative;
+  overflow-x: hidden;
 
   .container {
     .row {
       .top {
         display: flex;
         justify-content: space-between;
+        padding: 100px 0 100px 0;
+
         .title {
-          font-size: 5rem;
+          font-family: "bold";
+          font-size: 96px;
           font-weight: 800;
-          line-height: 1.1;
+          line-height: 1.2;
           max-width: 60%;
           text-transform: capitalize;
-          color: white;
-          //   width: 100px;
+          color: $primary-text-color;
+
+          @media (max-width: 1024px) {
+            font-size: 64px;
+            line-height: 1.1;
+            max-width: 55%;
+          }
+
+          @media (max-width: 768px) {
+            font-size: 40px;
+            line-height: 1.1;
+            max-width: 100%;
+          }
         }
+
         .info {
-          background-color: rgba(51, 51, 51, 0.849);
+          background-color: rgba($secondary-bg-color, 0.849);
           backdrop-filter: blur(5px);
           -webkit-backdrop-filter: blur(5px);
           color: white;
           border: 1px solid rgba(255, 255, 255, 0.1);
           border-radius: 10px;
           padding: 25px;
-          height: 100px;
+          height: fit-content;
           width: 380px;
           font-size: 18px;
-          font-family: "regular";
+          font-family: "regular", sans-serif;
           text-align: start;
-          line-height: 30px;
+          line-height: 1.6;
           font-style: italic;
+          flex-shrink: 0;
+
+          @media (max-width: 768px) {
+            display: none;
+          }
+        }
+
+        @media (max-width: 768px) {
+          flex-direction: column;
+          padding: 50px 0;
         }
       }
+    }
+    .alone {
+      display: flex;
+      justify-content: end;
+      .info {
+        font-size: 36px;
+        font-family: "regular";
+        width: 640px;
+        color: $primary-text-color;
+        line-height: 60px;
+      }
+    }
+  }
+
+  .scrolling-showcase {
+    padding: 40px 0 120px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    user-select: none;
+    margin-top: 80px;
+    .track {
+      display: flex;
+      white-space: nowrap;
+      width: fit-content;
+      // Performans üçün
+      will-change: transform;
+    }
+
+    .slide {
+      flex-shrink: 0;
+      margin-right: 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      overflow: hidden;
+
+      img {
+        display: block;
+        width: 400px;
+        height: auto;
+      }
+    }
+
+    /* Keyframes: Fasiləsiz sola kaydırma */
+    @keyframes scroll-left {
+      0% {
+        transform: translateX(0);
+      }
+      // Şəkillər 3 dəfə təkrarlanır
+      100% {
+        transform: translateX(-33.333%);
+      }
+    }
+
+    /* Keyframes: Fasiləsiz sağa kaydırma */
+    @keyframes scroll-right {
+      0% {
+        transform: translateX(-33.333%);
+      }
+      100% {
+        transform: translateX(0);
+      }
+    }
+
+    /* Animasiya */
+    .track-top {
+      animation: scroll-left 50s linear infinite;
+    }
+
+    .track-bottom {
+      animation: scroll-right 60s linear infinite;
+      margin-top: 24px;
+    }
+
+    /* Hover ilə dayanma */
+    .track:hover {
+      animation-play-state: paused;
     }
   }
 }
