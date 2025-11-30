@@ -1,100 +1,105 @@
-
-import { createSlice } from '@reduxjs/toolkit'; 
+import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import type { ModalState, SelectedArtwork, UserCoordinates } from '../types/modalTypes';
-import type { RootState } from './index'; 
+
+export interface SelectedFormat {
+    name: string; 
+    price: number;
+    type: 'original' | 'poster' | 'giclee' | 'other'; 
+}
+
+export interface ModalProductItem {
+    artworkId: string;
+    name: string;
+    price: number; 
+    imageUrl: string;
+    selectedFormat: SelectedFormat;
+    quantity: number; 
+}
+
+interface ModalState {
+    isOpen: boolean;
+    currentStep: number; 
+    product: ModalProductItem | null;
+    buyerDetails: {
+        firstName: string;
+        lastName: string;
+        email: string;
+        phone: string;
+        country: string;
+    };
+}
 
 const initialState: ModalState = {
-  isModalOpen: false,
-  currentStep: 1,
-  totalSteps: 5,
-  cartItems: [],
-  coordinates: { firstName: '', lastName: '', email: '', phone: '' },
-  userMessage:
-    'Bonjour,\n\nJe vous contacte concernant l\'acquisition des œuvres sélectionnées. \n\nPouriez-vous me confirmer :\n- La disponibilité\n- Les modalités de livraison\n- Les options de paiement\n- Les délais de préparation\n\nJe reste à votre disposition pour tout complément d\'information.\n\nCordialement,',
-  privacyAccepted: false,
-  isSubmitting: false,
-  submitSuccess: false,
-  submitError: null,
+    isOpen: false,
+    currentStep: 1,
+    product: null,
+    buyerDetails: {
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        country: '',
+    },
 };
 
-const modalSlice = createSlice({
-  name: 'modal',
-  initialState,
-  reducers: {
-    openModal: (state, action: PayloadAction<{ product: SelectedArtwork }>) => {
-      state.isModalOpen = true;
-      state.currentStep = 1;
-      state.cartItems = [action.payload.product];
-      state.submitSuccess = false;
+export const modalSlice = createSlice({
+    name: 'modal',
+    initialState,
+    reducers: {
+        // Modalı açır və ilkin məhsul məlumatlarını doldurur
+        openModal: (state, action: PayloadAction<{ product: ModalProductItem }>) => {
+            state.isOpen = true;
+            state.currentStep = 1;
+            state.product = action.payload.product;
+        },
+        // Modalı bağlayır və bütün məlumatları sıfırlayır
+        closeModal: (state) => {
+            state.isOpen = false;
+            state.currentStep = 1;
+            state.product = null;
+            state.buyerDetails = initialState.buyerDetails; 
+        },
+        // Növbəti addıma keçir
+        goToNextStep: (state) => {
+            state.currentStep += 1;
+        },
+        // Əvvəlki addıma keçir
+        goToPreviousStep: (state) => {
+            if (state.currentStep > 1) {
+                state.currentStep -= 1;
+            }
+        },
+        // Alıcının məlumatlarını yeniləyir
+        updateBuyerDetails: (state, action: PayloadAction<Partial<ModalState['buyerDetails']>>) => {
+            state.buyerDetails = { ...state.buyerDetails, ...action.payload };
+        },
+        // Seçilmiş formatı yeniləyir (Əsasən Step1-də istifadə olunur)
+        updateSelectedFormat: (state, action: PayloadAction<SelectedFormat>) => {
+            if (state.product) {
+                state.product.selectedFormat = action.payload;
+                // Əgər format orijinaldırsa, miqdarı 1 edir
+                if (action.payload.type === 'original') {
+                    state.product.quantity = 1;
+                }
+            }
+        },
+        // Miqdarı yeniləyir
+        updateQuantity: (state, action: PayloadAction<number>) => {
+            if (state.product) {
+                state.product.quantity = action.payload;
+            }
+        },
     },
-
-    closeModal: (state) => {
-      state.isModalOpen = false;
-      state.currentStep = 1;
-      state.cartItems = [];
-      state.coordinates = initialState.coordinates;
-      state.userMessage = initialState.userMessage;
-      state.privacyAccepted = false;
-      state.submitSuccess = false;
-    },
-
-    nextStep: (state) => {
-      state.currentStep = Math.min(state.currentStep + 1, state.totalSteps);
-    },
-
-    prevStep: (state) => {
-      state.currentStep = Math.max(state.currentStep - 1, 1);
-    },
-
-    toggleArtworkSelection: (state, action: PayloadAction<SelectedArtwork>) => {
-      const itemIndex = state.cartItems.findIndex(item => item.artworkId === action.payload.artworkId);
-      if (itemIndex > -1) {
-        state.cartItems = state.cartItems.filter(item => item.artworkId !== action.payload.artworkId);
-      } else {
-        state.cartItems.push(action.payload);
-      }
-    },
-
-    updateFormat: (state, action: PayloadAction<{ artworkId: string, format: SelectedArtwork['selectedFormat'] }>) => {
-      const itemIndex = state.cartItems.findIndex(item => item.artworkId === action.payload.artworkId);
-      if (itemIndex > -1) {
-        state.cartItems[itemIndex].selectedFormat = action.payload.format;
-        state.cartItems[itemIndex].price = action.payload.format.price; 
-      }
-    },
-
-    updateCoordinates: (state, action: PayloadAction<Partial<UserCoordinates>>) => {
-      state.coordinates = { ...state.coordinates, ...action.payload };
-    },
-
-    updateMessage: (state, action: PayloadAction<string>) => {
-      state.userMessage = action.payload;
-    },
-
-    togglePrivacy: (state) => {
-      state.privacyAccepted = !state.privacyAccepted;
-    },
-
-    setSubmitSuccess: (state, action: PayloadAction<boolean | undefined>) => {
-      state.submitSuccess = action.payload ?? true;
-    }
-  },
 });
 
-export const { 
-  openModal, 
-  closeModal, 
-  nextStep, 
-  prevStep,
-  toggleArtworkSelection,
-  updateFormat,
-  updateCoordinates,
-  updateMessage,
-  togglePrivacy,
-  setSubmitSuccess
+export const {
+    openModal,
+    closeModal,
+    goToNextStep,
+    goToPreviousStep,
+    updateBuyerDetails,
+    updateSelectedFormat,
+    updateQuantity,
 } = modalSlice.actions;
-
-export const selectModalState = (state: RootState) => state.modal;
 
 export default modalSlice.reducer;

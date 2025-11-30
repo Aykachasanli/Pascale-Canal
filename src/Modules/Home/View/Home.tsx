@@ -13,7 +13,7 @@ const ImmortalizeBanner: React.FC = () => {
     // Bütün banner tıklanabilir olacaq
     <div
       className="immortalize-banner"
-      onClick={() => navigate("/order-painting")}
+      onClick={() => navigate("/personal")}
     >
       <div className="banner-content">
         <span className="novelty-tag">NOVELTY</span>

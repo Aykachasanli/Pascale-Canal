@@ -105,11 +105,11 @@ const Details: React.FC = () => {
           </div>
 
           <div className="actions">
-            <button className="buy-btn" onClick={handleOpenModal}>
-              Contact us to purchase
+            <button className="buy-btn" onClick={handleOpenModal} >
+              Contact us to purchase 
             </button>
             <button className="share-btn">Share</button>
-          </div>
+          </div> 
         </div>
       </section>
     </div>

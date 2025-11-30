@@ -1,256 +1,101 @@
-// import React from "react";
-// import { useSelector, useDispatch } from "react-redux";
-// import { X } from "lucide-react";
-// import { selectModalState, closeModal, nextStep, prevStep } from "../store/modalSlice";
-// import type { RootState } from "../store/store";
-
-
-
-// const BuyArtworkModal: React.FC = () => {
-//   const dispatch = useDispatch();
-//   const modal = useSelector((state: RootState) => selectModalState(state));
-
-//   if (!modal.isModalOpen) return null;
-
-//   return (
-//     <div className="modal-overlay">
-//       <div className="modal-box">
-//         {/* Close Button */}
-//         <button className="close-btn" onClick={() => dispatch(closeModal())}>
-//           <X size={28} />
-//         </button>
-
-//         <h1 className="modal-title">Buy this artwork</h1>
-//         <p className="modal-desc">
-//           Fill out this form and I will contact you shortly to discuss the details.
-//         </p>
-
-//         {/* STEP BAR */}
-//         <div className="step-bar">
-//           {Array.from({ length: modal.totalSteps }, (_, i) => i + 1).map((s) => (
-//             <div
-//               key={s}
-//               className={`step-item ${modal.currentStep === s ? "active" : modal.currentStep > s ? "done" : ""}`}
-//             >
-//               <div className="circle">{s}</div>
-//               <div className="line"></div>
-//             </div>
-//           ))}
-//         </div>
-
-//         {/* Step Content - Boş saxlanıb, ayrı TSX faylında yazılacaq */}
-//         <div className="step-content">
-//           {/* Burada hər step üçün ayrı komponentləri import edib render edə bilərsən */}
-//         </div>
-
-//         {/* Buttons */}
-//         <div className="modal-nav">
-//           <button
-//             onClick={() => dispatch(prevStep())}
-//             disabled={modal.currentStep === 1}
-//             className="modal-btn"
-//           >
-//             Back
-//           </button>
-
-//           <button
-//             onClick={() =>
-//               modal.currentStep === modal.totalSteps ? dispatch(closeModal()) : dispatch(nextStep())
-//             }
-//             className="modal-btn yellow"
-//           >
-//             {modal.currentStep === modal.totalSteps ? "Finish" : "Next"}
-//           </button>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default BuyArtworkModal;
-
-
-
-
-
-
-
-// import React from "react";
-// import { useSelector, useDispatch } from "react-redux";
-// import { X } from "lucide-react";
-// import { selectModalState, closeModal, nextStep, prevStep } from "../store/modalSlice";
-// import type { RootState } from "../store/store";
-
-// // BÜTÜN ADDIM KOMPONENTLƏRİNİ İMPORT EDİN
-// // Fərz edilir ki, bu fayllar `steps` qovluğunda mövcuddur
-// import Step1_ArtworkSelection from "./steps/Step1_ArtworkSelection";
-
-
-
-// const BuyArtworkModal: React.FC = () => {
-//   const dispatch = useDispatch();
-//   const modal = useSelector((state: RootState) => selectModalState(state));
-
-//   if (!modal.isModalOpen) return null;
-
-//   /**
-//    * Cari addıma uyğun komponenti qaytaran köməkçi funksiya.
-//    */
-//   const renderStepContent = () => {
-//     switch (modal.currentStep) {
-//       case 1:
-//         return <Step1_ArtworkSelection />;
-//       case 2:
-     
-//         // Əgər currentStep modal.totalSteps-dən böyük olarsa
-//         return <div style={{padding: '20px', color: 'red'}}>⚠️ Error: Invalid step content.</div>;
-//     }
-//   };
-
-
-//   return (
-//     <div className="modal-overlay">
-//       <div className="modal-box">
-        
-//         {/* Close Button */}
-//         <button className="close-btn" onClick={() => dispatch(closeModal())}>
-//           <X size={28} />
-//         </button>
-
-//         <h1 className="modal-title">Buy this artwork</h1>
-//         <p className="modal-desc">
-//           Fill out this form and I will contact you shortly to discuss the details.
-//         </p>
-
-//         {/* --- STEP BAR --- */}
-//         <div className="step-bar">
-//           {Array.from({ length: modal.totalSteps }, (_, i) => i + 1).map((s) => (
-//             <div
-//               key={s}
-//               className={`step-item ${modal.currentStep === s ? "active" : modal.currentStep > s ? "done" : ""}`}
-//             >
-//               <div className="circle">{s}</div>
-//               <div className="line"></div>
-//             </div>
-//           ))}
-//         </div>
-        
-//         {/* --- STEP CONTENT --- */}
-//         <div className="step-content">
-//            {/* Cari addıma uyğun komponenti render edir */}
-//            {renderStepContent()}
-//         </div>
-
-//         {/* --- NAVIGATION BUTTONS --- */}
-//         <div className="modal-nav">
-//           <button
-//             onClick={() => dispatch(prevStep())}
-//             // Yalnız 1-ci addımda "Back" (Geri) düyməsini deaktiv edir
-//             disabled={modal.currentStep === 1}
-//             className="modal-btn"
-//           >
-//             Back
-//           </button>
-
-//           <button
-//             onClick={() =>
-//               modal.currentStep === modal.totalSteps ? dispatch(closeModal()) : dispatch(nextStep())
-//             }
-//             className="modal-btn yellow"
-//           >
-//             {/* Son addımda "Finish" (Bitir), digərlərində "Next" (İrəli) yazılır */}
-//             {modal.currentStep === modal.totalSteps ? "Finish" : "Next"}
-//           </button>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default BuyArtworkModal;
-
-
 
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { X } from "lucide-react";
-import { selectModalState, closeModal, nextStep, prevStep } from "../store/modalSlice";
-import type { RootState } from "../store/store";
-
-// Bütün Addım Komponentləri
-import Step1_ArtworkSelection from "./steps/Step1_ArtworkSelection";
- // TotalSteps 5 olduğu üçün
-
-// Qeyd: totalSteps sizin modalSlice-da 5-dir.
+import ReactDOM from "react-dom";
+import { useAppSelector, useAppDispatch } from "../store/hooks";
+import {closeModal, goToNextStep, goToPreviousStep} from "../store/modalSlice";
+import Step1_ArtworkSelection from "./steps/Step1";
+import Step2_FormatSelection from "./steps/Step2";
+import Step3_Summary from "./steps/Step3";
+import Step4_Coordinates from "./steps/Step4";
 
 const BuyArtworkModal: React.FC = () => {
-  const dispatch = useDispatch();
-  const modal = useSelector((state: RootState) => selectModalState(state));
+  const { isOpen, currentStep, product } = useAppSelector(
+    (state) => state.modal
+  );
+  const dispatch = useAppDispatch();
 
-  if (!modal.isModalOpen) return null;
+  if (!isOpen || !product) return null;
 
   const renderStepContent = () => {
-    switch (modal.currentStep) {
+    switch (currentStep) {
       case 1:
-        return <Step1_ArtworkSelection />;
+        return <Step1_ArtworkSelection product={product} />;
       case 2:
-      
-        return <div>Error: Invalid step</div>;
+        return <Step2_FormatSelection />;
+      case 3:
+        return <Step3_Summary />;
+      case 4:
+        return <Step4_Coordinates />;
+      default:
+        return <Step1_ArtworkSelection product={product} />;
     }
   };
 
-  return (
-    <div className="modal-overlay">
-      <div className="modal-box">
-        {/* Close Button */}
-        <button className="close-btn" onClick={() => dispatch(closeModal())}>
-          <X size={28} />
-        </button>
+  const handleClose = () => {
+    dispatch(closeModal());
+  };
 
-        <h1 className="modal-title">Buy this artwork</h1>
-        <p className="modal-desc">
-          Are you interested in purchasing "Paysage Aubrac"? Fill out this form and I will contact you shortly to discuss the details.
-        </p>
+  const modalRoot = document.getElementById("modal-root");
+  if (!modalRoot) return null;
 
-        {/* STEP BAR */}
+  const steps = [
+    { id: 1, label: "Artwork" },
+    { id: 2, label: "Summary" },
+    { id: 3, label: "Coordinates" },
+    { id: 4, label: "Payment" },
+  ];
+
+  const isNavigationVisible = currentStep > 1 && currentStep < 4;
+
+  return ReactDOM.createPortal(
+    <div className="modal-overlay" onClick={handleClose}>
+      <div className="buy-artwork-modal" onClick={(e) => e.stopPropagation()}>
+        <div className="modal-header">
+          <h2>Purchase request</h2>
+          <p>
+            Are you interested in purchasing "{product.name}"? Fill out this
+            form and I will contact you shortly to discuss the details.
+          </p>
+          <button className="close-btn" onClick={handleClose}>
+            ×
+          </button>
+        </div>
+
         <div className="step-bar">
-          {Array.from({ length: modal.totalSteps }, (_, i) => i + 1).map((s) => (
+          {steps.map((step) => (
             <div
-              key={s}
-              className={`step-item ${modal.currentStep === s ? "active" : modal.currentStep > s ? "done" : ""}`}
+              key={step.id}
+              className={`step-item ${
+                currentStep === step.id ? "active" : ""
+              } ${currentStep > step.id ? "completed" : ""}`}
             >
-              <div className="circle">{s}</div>
-              <div className="line"></div>
+              <div className="step-number">{step.id}</div>
+              <div className="step-label">{step.label}</div>
             </div>
           ))}
         </div>
 
-        {/* Step Content */}
-        <div className="step-content">
-           {renderStepContent()}
-        </div>
+        <div className="modal-content">{renderStepContent()}</div>
 
-        {/* Buttons */}
-        <div className="modal-nav">
-          <button
-            onClick={() => dispatch(prevStep())}
-            disabled={modal.currentStep === 1}
-            className="modal-btn"
-          >
-            {modal.currentStep > 1 ? "Précédent" : "Back"} {/* Şəkillərdəki kimi fransızca */}
-          </button>
-
-          <button
-            onClick={() =>
-              modal.currentStep === modal.totalSteps ? dispatch(closeModal()) : dispatch(nextStep())
-            }
-            className="modal-btn yellow"
-          >
-            {modal.currentStep === modal.totalSteps ? "Finish" : "Suivant"}
-          </button>
-        </div>
+        {isNavigationVisible && (
+          <div className="modal-footer">
+            <button
+              className="back-btn"
+              onClick={() => dispatch(goToPreviousStep())}
+            >
+              ← Back
+            </button>
+            <button
+              className="next-btn"
+              onClick={() => dispatch(goToNextStep())}
+            >
+              Next →
+            </button>
+          </div>
+        )}
       </div>
-    </div>
+    </div>,
+    modalRoot
   );
 };
 
