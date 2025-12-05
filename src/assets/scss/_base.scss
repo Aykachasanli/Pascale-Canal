@@ -36,7 +36,7 @@
   list-style: none;
   text-decoration: none;
   box-sizing: border-box;
-
+ overflow-x: hidden; 
 }
 
 .row {
@@ -47,3 +47,4 @@
   width: 91%;
   margin: 0 auto;
 }
+

@@ -3,6 +3,7 @@ import Home from "../Modules/Home/View/Home.tsx";
 import Details from "../Modules/Home/View/Details.tsx";
 import Contact from "../Modules/Contact/View/Contact.tsx";
 import Personal from "../Modules/Personal/View/Personal.tsx";
+import Who from "../Modules/Who/View/Who.tsx";
 
 
 
@@ -48,6 +49,14 @@ const pagesList: IPage[] = [
     element: <Personal />, 
     is_visible: true,
     for_navigation: false, 
+  },
+ {
+    id: "who",
+    title: "Who",
+    path: "/who",
+    element: <Who />, 
+    is_visible: true,
+    for_navigation: true, 
   },
 
 ];

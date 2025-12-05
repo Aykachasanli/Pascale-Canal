@@ -12,10 +12,13 @@
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
     "@reduxjs/toolkit": "^2.9.2",
+    "aos": "^2.3.4",
     "axios": "^1.12.2",
     "dotenv": "^17.2.3",
     "framer-motion": "^12.23.24",
     "gsap": "^3.13.0",
+    "hamburger": "^0.1.1",
+    "hamburger-react": "^2.5.2",
     "lucide-react": "^0.553.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
@@ -27,6 +30,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.36.0",
+    "@types/aos": "^3.0.7",
     "@types/node": "^24.6.0",
     "@types/react": "^19.1.16",
     "@types/react-dom": "^19.1.9",

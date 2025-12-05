@@ -1,51 +1,55 @@
 import React, { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import { fetchProductById, clearSelectedProduct } from "../../../store/homeSlice"; 
-import { openModal } from '../../../store/modalSlice'; 
-
+import {
+  fetchProductById,
+  clearSelectedProduct,
+} from "../../../store/homeSlice";
+import { openModal } from "../../../store/modalSlice";
+import CustomSection from "../../../components/CustomSection";
 
 const Details: React.FC = () => {
-  const { id } = useParams<{ id: string }>(); 
+  const { id } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { selectedProduct, loading } = useAppSelector((state) => state.home);
 
-  const IMAGE_BASE_URL = import.meta.env.VITE_IMAGE_URL || 'http://localhost:8000/';
-  
+  const IMAGE_BASE_URL =
+    import.meta.env.VITE_IMAGE_URL || "http://localhost:8000/";
+
   useEffect(() => {
     if (id) {
-        dispatch(fetchProductById(id));
+      dispatch(fetchProductById(id));
     }
-    
+
     return () => {
-        dispatch(clearSelectedProduct());
+      dispatch(clearSelectedProduct());
     };
   }, [dispatch, id]);
 
   const handleOpenModal = () => {
-      if (selectedProduct) {
-          const initialItem: any = { 
-              artworkId: selectedProduct._id,
-              name: selectedProduct.name,
-              price: selectedProduct.price,
-              imageUrl: `${IMAGE_BASE_URL}${selectedProduct.productImage}`,
-              selectedFormat: { 
-                  name: 'Œuvre originale', 
-                  price: selectedProduct.price, 
-                  type: 'original' as const 
-              },
-              quantity: 1,
-          };
-          dispatch(openModal({ product: initialItem }));
-      }
+    if (selectedProduct) {
+      const initialItem: any = {
+        artworkId: selectedProduct._id,
+        name: selectedProduct.name,
+        price: selectedProduct.price,
+        imageUrl: `${IMAGE_BASE_URL}${selectedProduct.productImage}`,
+        selectedFormat: {
+          name: "Œuvre originale",
+          price: selectedProduct.price,
+          type: "original" as const,
+        },
+        quantity: 1,
+      };
+      dispatch(openModal({ product: initialItem }));
+    }
   };
 
   if (loading && !selectedProduct) {
     return <div className="loading-state">Məhsul detalları yüklənir...</div>;
   }
-  
-  if (!selectedProduct) return null; 
+
+  if (!selectedProduct) return null;
 
   return (
     <div className="details-page">
@@ -59,7 +63,6 @@ const Details: React.FC = () => {
         </p>
       </header>
 
-     
       <section className="details-content">
         <div className="image-side">
           <img
@@ -79,7 +82,6 @@ const Details: React.FC = () => {
               </div>
               <p>{selectedProduct.price} €</p>
             </div>
-
           </div>
 
           <div className="details">
@@ -105,11 +107,11 @@ const Details: React.FC = () => {
           </div>
 
           <div className="actions">
-            <button className="buy-btn" onClick={handleOpenModal} >
-              Contact us to purchase 
+            <button className="buy-btn" onClick={handleOpenModal}>
+              Contact us to purchase
             </button>
             <button className="share-btn">Share</button>
-          </div> 
+          </div>
         </div>
       </section>
     </div>

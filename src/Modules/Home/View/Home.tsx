@@ -5,16 +5,18 @@ import CustomSection from "../../../components/CustomSection";
 
 const IMAGE_BASE_URL = import.meta.env.VITE_IMAGE_URL;
 
-// Şəkildəki banner hissəsi üçün komponent
+// ImmortalizeBanner komponenti (Yalnız düymə tıklanabilir)
 const ImmortalizeBanner: React.FC = () => {
   const navigate = useNavigate();
 
+  // Yalnız düyməni klikləmək üçün funksiya
+  const handleOrderClick = () => {
+    navigate("/personal");
+  };
+
   return (
-    // Bütün banner tıklanabilir olacaq
-    <div
-      className="immortalize-banner"
-      onClick={() => navigate("/personal")}
-    >
+    // Bütün div tıklanabilir deyil
+    <div className="immortalize-banner">
       <div className="banner-content">
         <span className="novelty-tag">NOVELTY</span>
         <h2>Immortalize your memory in a unique painting</h2>
@@ -23,7 +25,8 @@ const ImmortalizeBanner: React.FC = () => {
           tailored to your taste.
         </p>
       </div>
-      <button className="order-button">
+      {/* Yalnız bu düymə tıklanabilir olacaq */}
+      <button className="order-button" onClick={handleOrderClick}>
         Order your painting <span className="arrow">→</span>
       </button>
     </div>
@@ -34,6 +37,7 @@ const Home: React.FC = () => {
   const { products, loading, error } = useHomeProvider();
   const navigate = useNavigate();
 
+  // Məhsul qalereyasını idarə edən və render edən hissə
   const content = useMemo(() => {
     if (loading) {
       return <div className="loading-state">Məhsullar yüklənir...</div>;
@@ -71,7 +75,8 @@ const Home: React.FC = () => {
     <CustomSection className="home">
       <div className="container">
         <div className="row">
-          <div className="content">
+          {/* 1. BAŞLIQ HİSSƏSİ (KODDA BİRİNCİ) */}
+          <div data-aos="fade-up" className="content">
             <h1 className="title">
               Pascale <span>Canal</span>
               <span className="badge">FRENCH PAINTER</span>
@@ -79,6 +84,7 @@ const Home: React.FC = () => {
             <p className="subtitle">Visit my e-gallery</p>
           </div>
 
+          {/* 2. MƏHSUL QALEREYASI (KODDA İKİNCİ) */}
           {content}
 
           <div className="col-12">

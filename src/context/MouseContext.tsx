@@ -53,7 +53,7 @@ export const MouseProvider: React.FC<{ children: React.ReactNode }> = ({
         <div className="smoke-trail">
           {trail.map((t) => (
             <span
-              key={t.id}
+              // key={t.id}
               className="smoke"
               style={{
                 left: t.x + "px",

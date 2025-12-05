@@ -1,21 +1,20 @@
 import { useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import logo from "../assets/images/logo-reversed.avif";
+import Hamburger from "hamburger-react";
 
 const navLinks = [
   { to: "/", label: "Paintings" },
-  { to: "/", label: "Who am I?" },
+  { to: "/who", label: "Who am I?" },
   { to: "/contact", label: "Contact" },
-  
 ];
 
 const bgColorsForPath = ["/contact", "/personal"];
 
-
 const Header = () => {
   const path = useLocation();
   const isBlackBg = bgColorsForPath.includes(path?.pathname);
-
+  const [isOpen, setIsOpen] = useState(false);
   // Mobil menunun açıq/qapalı vəziyyətini idarə etmək üçün state
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -75,28 +74,21 @@ const Header = () => {
               background: isBlackBg ? "white" : "black",
             }}
           >
-            <div className="hamburgerIcon">
-              <span
-                className="line top"
-                style={{ background: isBlackBg ? "black" : "white" }}
-              ></span>
-              <span
-                className="line middle"
-                style={{ background: isBlackBg ? "black" : "white" }}
-              ></span>
-              <span
-                className="line bottom"
-                style={{ background: isBlackBg ? "black" : "white" }}
-              ></span>
-            </div>
+          
+            <Hamburger
+              size={22}
+              // isBlackBg true olanda button fonu ağdırsa, xətlər qara olmalıdır, əksinə isə ağ.
+              color={isBlackBg ? "black" : "white"}
+              toggled={isMenuOpen} // isMenuOpen state-i ilə idarə olunur
+              toggle={toggleMenu} // toggleMenu funksiyası ilə state dəyişdirilir
+              // background stili artıq button elementinə verilib, Hamburger komponentinin özünə ehtiyac yoxdur.
+            />
           </button>
         </div>
       </div>
 
       <div className={`mobileMenuOverlay ${isMenuOpen ? "is-active" : ""}`}>
-        <button className="closeButton" onClick={toggleMenu}>
-          &times;
-        </button>
+     
         <nav className="mobileNav">{renderNavLinks(true)}</nav>
       </div>
     </header>

@@ -1,14 +1,22 @@
-import React from "react";
-import { updateSelectedFormat, goToNextStep,  } from "../../store/modalSlice";
-import { useAppDispatch } from "../../store/hooks";
+import React, { useEffect, useState } from "react";
+import {
+  updateSelectedFormat,
+  goToNextStep,
+  toggleRelatedArtwork,
+} from "../../store/modalSlice";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import type { ModalProductItem } from "../../store/modalSlice";
+import { useHomeProvider } from "../../Modules/Home/Provider/HomeProvider";
 
 interface Step1Props {
   product: ModalProductItem;
 }
 
+const IMAGE_BASE_URL = import.meta.env.VITE_IMAGE_URL;
+
 const Step1: React.FC<Step1Props> = ({ product }) => {
   const dispatch = useAppDispatch();
+  const { products, loading, error } = useHomeProvider();
 
   const availableFormats = [
     {
@@ -21,11 +29,36 @@ const Step1: React.FC<Step1Props> = ({ product }) => {
   ];
 
   const handleFormatChange = (format: (typeof availableFormats)[number]) => {
+    console.log(format, "format");
     dispatch(updateSelectedFormat(format));
   };
 
   const handleNext = () => {
     dispatch(goToNextStep());
+  };
+
+  const selected = useAppSelector(
+    (state) => state.modal.selectedRelatedArtworks
+  );
+
+  const isSelected = (artId: string) =>
+    selected.some((item) => item.artworkId === artId);
+
+  const handleToggle = (item: any) => {
+    const formatted: ModalProductItem = {
+      artworkId: item._id,
+      name: item.name,
+      price: item.price,
+      imageUrl: IMAGE_BASE_URL + item.productImage,
+      selectedFormat: {
+        name: "Œuvre originale",
+        price: item.price,
+        type: "original",
+      },
+      quantity: 1,
+    };
+
+    dispatch(toggleRelatedArtwork(formatted));
   };
 
   return (
@@ -39,48 +72,33 @@ const Step1: React.FC<Step1Props> = ({ product }) => {
               <span className="price">{product.price} €</span>
             </div>
           </div>
-
-          {/* <div className="format-selection">
-            <h3>Choose the format</h3>
-            {availableFormats.map((format, index) => (
-              <div
-                key={index}
-                className={`format-option ${
-                  product.selectedFormat.type === format.type ? "selected" : ""
-                }`}
-                onClick={() => handleFormatChange(format)}
-              >
-                <div className="option-details">
-                  <input
-                    type="radio"
-                    name="format"
-                    checked={product.selectedFormat.type === format.type}
-                    readOnly
-                  />
-                  <span>{format.name}</span>
-                  {format.tag && <span className="tag">{format.tag}</span>}
-                </div>
-                <p className="price-tag">{format.price} €</p>
-              </div>
-            ))}
-          </div> */}
         </div>
 
         <div className="right-side">
           <h3>D'autres œuvres vous intéressent?</h3>
 
           <div className="related-artworks-list">
-            {[
-              { id: 1, title: "Nanuk", img: "placeholder1.jpg" },
-              { id: 2, title: "Regard d'ombre", img: "placeholder2.jpg" },
-              { id: 3, title: "Orival", img: "placeholder3.jpg" },
-              { id: 4, title: "Another", img: "placeholder4.jpg" },
-            ].map((item) => (
-              <div key={item.id} className="related-artwork-item">
-                <img src={`/assets/images/${item.img}`} alt={item.title} />
-                <span className="artwork-title">{item.title}</span>
-              </div>
-            ))}
+            {products
+              .filter((item) => item._id !== product.artworkId)
+              .slice(0, 4)
+              .map((item) => (
+                // <Link to={`details/${item._id}`}>
+                <div
+                  key={item._id}
+                  onClick={() => handleToggle(item)}
+                  className={`related-artwork-item ${
+                    isSelected(item._id) ? "selected" : ""
+                  }`}
+                >
+                  <img
+                    src={`${IMAGE_BASE_URL}${item.productImage}`}
+                    alt={item.name}
+                  />
+                  <span className="artwork-title">{item.name}</span>
+                </div>
+
+                // </Link>
+              ))}
           </div>
 
           <button className="view-all-btn">Voir toutes les œuvres</button>
@@ -88,7 +106,12 @@ const Step1: React.FC<Step1Props> = ({ product }) => {
       </div>
 
       <div className="step-1-footer">
-        <button className="suivante-btn" onClick={handleNext}>
+        <button
+          className="suivante-btn"
+          onClick={() => {
+            handleNext();
+          }}
+        >
           Suivant →
         </button>
       </div>
