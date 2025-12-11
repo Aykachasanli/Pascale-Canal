@@ -1,92 +1,73 @@
-.scroll-top-wrapper {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 9999;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
+.fixed-search-bar {
+    /* Konteynerin Sabit Mövqeyi */
+    position: fixed;
+    top: 20px; /* Yuxarıdan boşluq */
+    left: 50%;
+    transform: translateX(-50%); /* Mərkəzləşdirmə */
+    z-index: 1000;
+    width: 100%;
+    max-width: 900px; /* Maksimum genişlik */
+    padding: 0 16px; 
+    box-sizing: border-box;
 
-  .search-box {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 8px;
-
-    input {
-      padding: 6px 10px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 14px;
-      width: 180px;
+    .content-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px;
+        border-radius: 50px; /* Tam yumru kənarlar */
+        background-color: #000000; /* Qara fon */
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.5); /* Kölgə effekti */
+        gap: 12px;
     }
 
-    button {
-      padding: 6px 10px;
-      border: none;
-      background-color: #007bff;
-      color: #fff;
-      border-radius: 6px;
-      cursor: pointer;
-
-      &:hover {
-        background-color: #0056b3;
-      }
-    }
-  }
-
-  .scroll-top-btn {
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 12px;
-    padding: 10px 16px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-    transition: transform 0.2s;
-
-    &:hover {
-      transform: scale(1.05);
+    /* Loqo/Simvol üçün Stil */
+    .logo {
+        color: #ffffff;
+        font-size: 32px;
+        font-weight: bold;
+        padding: 0 12px;
+        user-select: none;
     }
 
-    .scroll-logo {
-      width: 32px;
-      height: 32px;
-      object-fit: contain;
+    /* Axtarış Sahəsi üçün Stil */
+    .search-input-container {
+        flex-grow: 1;
+        
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 50px;
+            background-color: #333333; /* Tünd boz fon */
+            color: #ffffff;
+            font-size: 16px;
+            
+            &::placeholder {
+                color: #aaaaaa; /* Placeholder rəngi */
+            }
+            
+            &:focus {
+                outline: none;
+                box-shadow: 0 0 0 2px #ffc107; /* Fokusda sarı haşiyə */
+            }
+        }
     }
 
-    span {
-      font-weight: 600;
-      font-size: 14px;
-      color: #333;
+    /* Back to top düyməsi üçün Stil */
+    .back-to-top-button {
+        background-color: #ffc107; /* Sarı fon */
+        color: #000000;
+        font-weight: bold;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: background-color 0.3s ease;
+        
+        &:hover {
+            background-color: #ffaa00; /* Hover rəngi */
+        }
     }
-  }
-
-  @media (max-width: 480px) {
-    .search-box {
-      input {
-        width: 140px;
-        font-size: 12px;
-      }
-
-      button {
-        padding: 5px 8px;
-        font-size: 12px;
-      }
-    }
-
-    .scroll-top-btn {
-      padding: 8px 12px;
-
-      .scroll-logo {
-        width: 24px;
-        height: 24px;
-      }
-
-      span {
-        font-size: 12px;
-      }
-    }
-  }
 }

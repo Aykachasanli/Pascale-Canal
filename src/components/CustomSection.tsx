@@ -6,6 +6,7 @@ interface ICustomSection {
   hideBg?: boolean;
 }
 
+
 const CustomSection: FC<ICustomSection> = ({ children, className, hideBg }) => {
   return (
     <section className={`section ${className || ""} ${hideBg ? "hide" : ""}`}>

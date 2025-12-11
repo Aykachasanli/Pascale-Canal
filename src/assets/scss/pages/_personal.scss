@@ -19,6 +19,9 @@ $dark-bg: #111111;
 
   .container {
     .row {
+      .col-12{
+        width: 100%;
+      }
       .top {
         display: flex;
         justify-content: space-between;

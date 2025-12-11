@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import logo from "../assets/images/logo-reversed.avif";
 import Hamburger from "hamburger-react";
+// import CustomSection from "./CustomSection";
 
 const navLinks = [
   { to: "/", label: "Paintings" },
@@ -9,7 +10,7 @@ const navLinks = [
   { to: "/contact", label: "Contact" },
 ];
 
-const bgColorsForPath = ["/contact", "/personal"];
+const bgColorsForPath = ["/contact", "/personal", "/who"];
 
 const Header = () => {
   const path = useLocation();
@@ -77,11 +78,9 @@ const Header = () => {
           
             <Hamburger
               size={22}
-              // isBlackBg true olanda button fonu ağdırsa, xətlər qara olmalıdır, əksinə isə ağ.
               color={isBlackBg ? "black" : "white"}
-              toggled={isMenuOpen} // isMenuOpen state-i ilə idarə olunur
-              toggle={toggleMenu} // toggleMenu funksiyası ilə state dəyişdirilir
-              // background stili artıq button elementinə verilib, Hamburger komponentinin özünə ehtiyac yoxdur.
+              toggled={isMenuOpen} 
+              toggle={toggleMenu} 
             />
           </button>
         </div>

@@ -18,6 +18,7 @@ interface HomeState {
   selectedProduct: Product | null;
   loading: boolean;
   error: string | null;
+  
 }
 
 const initialState: HomeState = {

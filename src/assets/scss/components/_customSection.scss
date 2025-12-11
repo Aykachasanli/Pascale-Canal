@@ -1,4 +1,7 @@
-.section {
+.section,
+.personal,
+.contact,
+.who-am-a-page {
   overflow: hidden;
   position: relative;
   &::before {
@@ -18,3 +21,35 @@
     text-align: center;
   }
 }
+
+.personal, .contact, .who-am-a-page {
+  .container {
+    .row {
+      .top {
+        .title {
+          position: relative;
+          z-index: 3;
+        }
+      }
+    }
+  }
+  &::before {
+    color: #fafafa50;
+    z-index: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .section,
+  .personal,
+  .contact,
+  .who-am-a-page {
+    &::before {
+      top: 50%;
+      left: 50%;
+      transform: translateX(-50%) translateY(-50%);
+      font-size: 220px;
+    }
+  }
+}
+

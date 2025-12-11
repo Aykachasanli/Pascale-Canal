@@ -40,37 +40,29 @@ const Step2: React.FC = () => {
     <div className="step-content step-2">
       <form onSubmit={handleSubmit} className="step-2-grid">
         <div className="order-summary">
-          <h3>Résumé de votre commande</h3>
+          <h3>Summary of your order</h3>
 
           <div className="total-price-block">
-            <p>Prix total</p>
+            <p>Total price</p>
             <span className="price-value">
               {cartItems.reduce((total, item) => total + item.price, 0).toFixed(2)} €
             </span>
           </div>
 
           <div className="artwork-details-block">
-            {/* <div className="artwork-info-row">
-              <img src={product.imageUrl} alt={product.name} />
-              <div className="text-info">
-                <span className="artwork-name">{product.name}</span>
-                <span className="artwork-format">
-                  {selectedFormat.name} - {selectedFormat.price} €
-                </span>
-              </div>
-            </div> */}
+         
             {cartItems.map((item) => (
               <div key={item.artworkId}>
                 <img src={item.imageUrl} />
-                <p>{item.name}</p>
+                <div className="info">
+                  <p>{item.name}</p>
                 <p>{item.price} €</p>
+                </div>
               </div>
             ))}
           </div>
 
-          <button className="suivante-btn" type="submit">
-            Suivant →
-          </button>
+        
         </div>
       </form>
     </div>

@@ -66,6 +66,7 @@ const Step1: React.FC<Step1Props> = ({ product }) => {
       <div className="step-1-grid">
         <div className="left-side">
           <div className="artwork-display">
+            
             <img src={product.imageUrl} alt={product.name} />
             <div className="artwork-info">
               <span className="name">{product.name}</span>
@@ -75,14 +76,14 @@ const Step1: React.FC<Step1Props> = ({ product }) => {
         </div>
 
         <div className="right-side">
-          <h3>D'autres œuvres vous intéressent?</h3>
+          <h3>Are you interested in other works?</h3>
 
           <div className="related-artworks-list">
             {products
               .filter((item) => item._id !== product.artworkId)
-              .slice(0, 4)
+              .slice(0, 9)
               .map((item) => (
-                // <Link to={`details/${item._id}`}>
+              
                 <div
                   key={item._id}
                   onClick={() => handleToggle(item)}
@@ -97,11 +98,11 @@ const Step1: React.FC<Step1Props> = ({ product }) => {
                   <span className="artwork-title">{item.name}</span>
                 </div>
 
-                // </Link>
+               
               ))}
           </div>
 
-          <button className="view-all-btn">Voir toutes les œuvres</button>
+          {/* <button className="view-all-btn">Voir toutes les œuvres</button> */}
         </div>
       </div>
 
@@ -112,7 +113,7 @@ const Step1: React.FC<Step1Props> = ({ product }) => {
             handleNext();
           }}
         >
-          Suivant →
+          Next →
         </button>
       </div>
     </div>

@@ -1,47 +1,69 @@
 import React, { useState } from "react";
-import logo from "../assets/images/logo-reversed.avif";
+// SCSS faylını import etməyi unutmayın
 
-const ScrollToTopButton: React.FC = () => {
-  const [showSearch, setShowSearch] = useState(false);
-  const [query, setQuery] = useState("");
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+/**
+ * Axtarış sahəsi və səhifənin yuxarısına qayıtmaq üçün düyməni ehtiva edən
+ * bütün səhifələrdə görünəcək sabit komponent.
+ */
+const SearchAndScrollFixed: React.FC = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  /**
+   * Səhifəni yuxarıya (0, 0 koordinatına) hamar şəkildə atır.
+   */
+  const handleBackToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth", 
+    });
   };
 
+  /**
+   * Axtarış funksionallığını yerinə yetirir (əlavə olaraq implementasiya edilməlidir).
+   */
   const handleSearch = () => {
-    if (query.trim() === "") return;
-    console.log("Axtar:", query);
-    setQuery("");
+    // Axtarış məntiqini bura əlavə edin
+    console.log("Axtarış edilir:", searchTerm);
+  };
+
+  // Input sahəsində 'Enter' basıldığında axtarış etmək üçün
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
   };
 
   return (
-    <div className="scroll-top-wrapper">
-      {showSearch && (
-        <div className="search-box">
+    <div className="fixed-search-bar">
+      <div className="content-wrapper">
+        
+        {/* Sol tərəfdəki loqo/simvol */}
+        <div className="logo">
+          PK
+        </div>
+
+        {/* Axtarış Sahəsi */}
+        <div className="search-input-container">
           <input
             type="text"
-            placeholder="Cədvəl axtar..."
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+            placeholder="Search for a table..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyDown={handleKeyDown}
           />
-          <button onClick={handleSearch}>Axtar</button>
         </div>
-      )}
 
-      <button
-        className="scroll-top-btn"
-        onClick={() => {
-          scrollToTop();
-          setShowSearch((prev) => !prev); 
-        }}
-      >
-        <img src={logo} alt="Logo" className="scroll-logo" />
-        <span>Cədvəl axtar</span>
-      </button>
+        {/* Back to top düyməsi */}
+        <button
+          onClick={handleBackToTop}
+          className="back-to-top-button"
+        >
+          Back to top
+        </button>
+      </div>
     </div>
   );
 };
 
-export default ScrollToTopButton;
+export default SearchAndScrollFixed;

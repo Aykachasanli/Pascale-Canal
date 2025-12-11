@@ -8,36 +8,41 @@
   overflow: hidden;
 
   .container {
-    // max-width: 1200px;
-    // margin: 0 auto;
-    // padding: 0 15px;
-
     .row {
-      padding: 5rem 0rem;
+      padding: 4rem 1rem;
       flex-direction: column;
+
       .top {
         display: flex;
+        // Bütün kontentin yan-yana olması üçün bu xüsusiyyətləri saxlayırıq:
         justify-content: space-between;
-        flex-wrap: wrap;
-        gap: 10rem;
+        flex-wrap: wrap; // Kiçik ekranlarda alt-alta düşməsini təmin edir
+        gap: 5rem; // Yan-yana olan elementlər arasındakı boşluğu azaldırıq
 
-        // **Orta ekran (1024px-dən kiçik)**
         @media (max-width: 1024px) {
           gap: 2rem;
-          justify-content: flex-start; // Soldan başlamaq
+          flex-wrap: nowrap;
+        }
+         @media (max-width: 768px) {
+         flex-direction: column;
         }
       }
 
       /* SOL TƏRƏF: Logo, Copyright və Author */
       .left {
-        width: 30%;
-        min-width: 250px;
+        // İndi yan-yana durması üçün tam eni deyil, müəyyən bir hissəni tutur
+        // width: 30%;
+        // min-width: 250px;
         font-family: "regular";
 
-        // **1024px-dən kiçik ekranlarda** bütün eni tutur
         @media (max-width: 1024px) {
-          width: 100%;
+          // Tablet və kiçik ekranlarda 100% enə qayıdır
+          // width: 100%;
           margin-bottom: 2rem;
+        }
+
+        @media (max-width: 768px) {
+          // min-width: 100%;
         }
 
         .logo {
@@ -67,17 +72,23 @@
         display: flex;
         gap: 2rem 5rem;
         flex-wrap: wrap;
-        width: 50%; // Normal desktop eni
+
+        // Yan-yana durması üçün qalan hissəni tutur
+        width: 60%;
         justify-content: space-evenly;
 
-        // **1024px-dən kiçik ekranlarda** bütün eni tutur
         @media (max-width: 1024px) {
+          // Tablet və kiçik ekranlarda 100% enə qayıdır
           width: 100%;
-          justify-content: flex-start;
+          justify-content: space-between;
           gap: 2rem 3rem;
         }
 
-        // **480px-dən kiçik ekranlarda** sütunlar tamamilə alt-alta yığılır
+        @media (max-width: 768px) {
+          // gap: 2rem 2rem;
+          // justify-content: space-between;
+        }
+
         @media (max-width: 480px) {
           flex-direction: column;
           gap: 2rem;
@@ -87,9 +98,11 @@
       /* SÜTUN STİLLƏRİ */
       .col {
         min-width: 150px;
-        // flex: 1; // Artıq columns-container responsive olduğu üçün bu lazım deyil
 
-        // **480px-dən kiçik ekranlarda** hər iki sütun tam eni tutur
+        @media (max-width: 768px) {
+          // min-width: 45%;
+        }
+
         @media (max-width: 480px) {
           min-width: 100%;
         }
@@ -145,36 +158,60 @@
     }
   }
 
-  /* ƏN ALT HİSSƏ: CHASN yazısı */
+  /* ƏN ALT HİSSƏ: CHASN yazısı - Dəyişmədi */
   .bottom {
-    // CHASN yazısını .bottom elementinə yerləşdirmək üçün stilləri dəyişirik
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
+    overflow: hidden;
+
+    @media (max-width: 768px) {
+      position: absolute;
+      left: auto;
+      right: 0;
+      width: auto;
+      height: 100%;
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-end;
+    }
 
     .title {
       display: flex;
       justify-content: center;
       font-family: "back";
-      width: 100%; // Genişliyi 100% etdik
+      width: 100%;
       max-width: 100%;
       overflow: hidden;
       white-space: nowrap;
-      font-size: 240px;
-      transform: scale(1.3) translateY(20%); // Şəkildəki kimi yerləşdirmə
+
+      // Desktop stilləri
+      font-size: 206px;
+      margin-bottom: 30px;
+      transform: scale(1.3) translateY(20%);
 
       @media (max-width: 1024px) {
-        font-size: 200px; // Orta ekranlar üçün kiçik
-        transform: scale(1.3) translateY(25%);
+        font-size: 160px;
+        transform: scale(1.2) translateY(25%);
       }
+
       @media (max-width: 768px) {
-        font-size: 150px;
-        transform: scale(1.3) translateY(30%);
-      }
-      @media (max-width: 480px) {
         font-size: 100px;
-        transform: scale(1.3) translateY(40%);
+        writing-mode: vertical-rl;
+        height: 100%;
+        text-orientation: mixed;
+        transform: none;
+        margin-bottom: 0;
+        padding: 0;
+        line-height: 1.1;
+        letter-spacing: initial;
+        margin-right: 20px;
+      }
+
+      @media (max-width: 480px) {
+        font-size: 80px;
+        margin-right: 10px;
       }
     }
   }

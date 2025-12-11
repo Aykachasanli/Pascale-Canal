@@ -42,7 +42,7 @@ const BuyArtworkModal: React.FC = () => {
     { id: 1, label: "Artwork" },
     { id: 2, label: "Summary" },
     { id: 3, label: "Coordinates" },
-    { id: 4, label: "Payment" },
+    { id: 4, label: "Message" },
   ];
 
   const isNavigationVisible = currentStep > 1 && currentStep < 4;

@@ -1,15 +1,42 @@
 import React, { useState } from "react";
 import emailjs from "@emailjs/browser";
-import { useNavigate } from "react-router-dom"; // useNavigate əlavə edildi
+import { useLocation, useNavigate } from "react-router-dom";
+// İnterfeysləri ayrıca bir fayldan (məsələn, src/types/interfaces.ts) import etdiyinizi fərz edirik
+// Lakin bu nümunədə, bütün kodu bir yerdə saxlamaq üçün onları buraya daxil edirik.
 
-// CustomSection komponenti (stilizasiya üçün qalıb)
-const CustomSection: React.FC<
-  React.PropsWithChildren<{ className: string }>
-> = ({ children, className }) => (
-  <section className={className}>{children}</section>
-);
+// ** TİPLƏRİN BURADA TƏKRAR TƏYİN EDİLMƏSİ **
+interface CustomSectionProps {
+  children: React.ReactNode;
+  className: string;
+}
 
-// Şəkil URL-ləri (Slayder üçün qalıb)
+interface PersonalFormData {
+  vision: string;
+  name: string;
+  email: string;
+  phone: string;
+  agreed: boolean;
+}
+
+interface FormErrors {
+  vision?: string;
+  name?: string;
+  email?: string;
+  phone?: string;
+  agreed?: string;
+  [key: string]: string | undefined;
+}
+
+type FormStatus = "idle" | "sending" | "success" | "error";
+// ** TİPLƏRİN SONU **
+
+// CustomSection komponenti
+const CustomSection: React.FC<CustomSectionProps> = ({
+  children,
+  className,
+}) => <section className={className}>{children}</section>;
+
+// Şəkil URL-ləri
 const IMAGE_URLS = [
   "/src/assets/images/anime1.jpg",
   "/src/assets/images/anime2.jpg",
@@ -26,18 +53,17 @@ const SLIDER_IMAGES_BOTTOM = [
   ...IMAGE_URLS.slice(2),
 ];
 
-//  Email Regex funksiyası
+// Email Regex funksiyası
 const validateEmail = (email: string): boolean => {
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return regex.test(email);
 };
 
-//  Yeni Banner Komponenti (Home səhifəsinə naviqasiya edir)
+// Yeni Banner Komponenti
 const CollectionBanner: React.FC = () => {
   const navigate = useNavigate();
 
   const handleExploreClick = () => {
-    // "Explorer la galerie" kliklənəndə Home səhifəsinə aparır
     navigate("/");
   };
 
@@ -48,7 +74,7 @@ const CollectionBanner: React.FC = () => {
           <div className="row">
             <div className="left-content">
               <span className="inspiration-tag">INSPIREZ-VOUS</span>
-              <h2>Découvrez ma collection de tableaux</h2>
+              <h2>Discover my collection of paintings</h2>
               <p className="description">
                 Explorez ma collection complète d'œuvres pour vous immerger dans
                 mon univers artistique.
@@ -66,7 +92,8 @@ const CollectionBanner: React.FC = () => {
 };
 
 const Personal: React.FC = () => {
-  const [formData, setFormData] = useState({
+  // PersonalFormData interfeysindən istifadə edərək state-in tipini təyin edirik
+  const [formData, setFormData] = useState<PersonalFormData>({
     vision: "",
     name: "",
     email: "",
@@ -75,15 +102,16 @@ const Personal: React.FC = () => {
   });
 
   const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
-  const [status, setStatus] = useState<
-    "idle" | "sending" | "success" | "error"
-  >("idle");
-  const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({});
+  // FormStatus union type-dan istifadə edirik
+  const [status, setStatus] = useState<FormStatus>("idle");
+  // FormErrors interfeysindən istifadə edirik
+  const [formErrors, setFormErrors] = useState<FormErrors>({});
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
+    // Tipi `PersonalFormData` olduğu üçün `name` xassəsinin düzgünlüyü təmin edilir.
     setFormData((prev) => ({ ...prev, [name]: value }));
     setFormErrors((prev) => ({ ...prev, [name]: "" }));
   };
@@ -93,9 +121,9 @@ const Personal: React.FC = () => {
     setFormErrors((prev) => ({ ...prev, agreed: "" }));
   };
 
-  //  Əsas Yoxlama Funksiyası
+  // Əsas Yoxlama Funksiyası
   const validateForm = (): boolean => {
-    const errors: { [key: string]: string } = {};
+    const errors: FormErrors = {}; // FormErrors tipindən istifadə
     let isValid = true;
 
     // Mail Yoxlaması
@@ -152,6 +180,7 @@ const Personal: React.FC = () => {
       );
 
       setStatus("success");
+      // Göndərilmədən sonra formu sıfırlayırıq
       setFormData({
         vision: "",
         name: "",

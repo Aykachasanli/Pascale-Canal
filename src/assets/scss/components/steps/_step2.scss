@@ -1,96 +1,107 @@
+.step-content.step-2 {
+  //   display: flex;
+  //   justify-content: center;
+  //   align-items: flex-start;
+  width: 100%;
+  padding-top: 20px;
+  font-family: "regular";
+}
 
-.step-2 {
-    padding: 10px 0;
-    
-    .step-2-grid {
-        display: grid;
-        grid-template-columns: 3fr 2fr; 
-        gap: 40px;
-        
-        @media (max-width: 900px) {
-            grid-template-columns: 1fr;
-        }
+.step-2-grid {
+  width: 100%;
+  // max-width: 450px;
+  margin: 0 auto;
+}
+
+.order-summary {
+  background-color: #333333;
+  color: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+
+  h3 {
+    text-align: center;
+    font-size: 1.5em;
+    margin-bottom: 25px;
+    font-weight: 500;
+    color: white;
+    font-family: "bold";
+  }
+}
+
+.total-price-block {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  padding: 20px;
+  margin-bottom: 25px;
+  background-color: #949389d9;
+  border-radius: 8px;
+  font-family: "bold";
+  border: 1px solid #ede18bb7;
+
+  p {
+    margin: 0;
+    color: #ede18b;
+    font-size: 1.2em;
+  }
+
+  .price-value {
+    color: white;
+    font-size: 1.4em;
+    font-weight: bold;
+  }
+}
+
+.artwork-details-block {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 30px;
+
+  > div {
+    display: flex;
+    align-items: center;
+
+    padding: 20px;
+    background-color: #3e3e3ec7;
+    border-radius: 8px;
+
+    img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-right: 15px;
+      flex-shrink: 0;
+      border: 1px solid #555;
     }
 
-    .order-summary {
-        background-color: #383838; 
-        border-radius: 12px;
-        padding: 25px;
-        height: fit-content;
+    .info {
+        margin-left: 20px;
+      p {
+        margin: 0;
+        font-size: 0.95em;
+        line-height: 1.9;
+        font-family: "regular";
 
-        h3 {
-            font-size: 1.2rem;
-            margin-bottom: 25px;
-            color: #ccc;
-        }
-        
-        .total-price-block {
-            background-color: #4a4a4a;
-            padding: 15px;
-            border-radius: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: bold;
-            margin-bottom: 20px;
-            
-            p {
-                font-size: 1rem;
-                color: #e0e0e0;
-            }
-            .price-value {
-                font-size: 1.5rem;
-                color: #28a745; 
-            }
+        &:nth-child(2) {
+          flex-grow: 1;
+          color: #f0f0f0;
+          font-weight: 500;
+          padding-right: 10px;
         }
 
-        .artwork-details-block {
-            background-color: #4a4a4a;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 30px;
-            
-            .artwork-info-row {
-                display: flex;
-                gap: 15px;
-                
-                img {
-                    width: 80px;
-                    height: 80px;
-                    object-fit: cover;
-                    border-radius: 4px;
-                }
-                
-                .text-info {
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                    
-                    .artwork-name {
-                        font-weight: bold;
-                        font-size: 1rem;
-                    }
-                    .artwork-format {
-                        font-size: 0.85rem;
-                        color: #ccc;
-                    }
-                }
-            }
+        &:last-child {
+          color: #d8d8d8;
+          font-weight: 500;
+          min-width: 65px;
+       
+          font-size: 0.9em;
         }
-        
-        .suivante-btn {
-            width: 100%;
-            padding: 12px;
-            background-color: #ff5722;
-            color: #fff;
-            font-size: 1rem;
-            font-weight: bold;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            &:hover {
-                background-color: darken(#ff5722, 10%);
-            }
-        }
+      }
     }
+  }
 }
