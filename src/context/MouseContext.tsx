@@ -5,11 +5,11 @@ interface MouseContextProps {
   x: number;
   y: number;
 }
-const bgColorsForPath = ["/contact"];
+// const bgColorsForPath = ["/contact"];
 
 const MouseContext = createContext<MouseContextProps>({ x: 0, y: 0 });
-const path = useLocation();
-const isBlackBg = bgColorsForPath.includes(path?.pathname);
+// const path = useLocation();
+// const isBlackBg = bgColorsForPath.includes(path?.pathname);
 export const useMouse = () => useContext(MouseContext);
 
 export const MouseProvider: React.FC<{ children: React.ReactNode }> = ({
@@ -58,7 +58,7 @@ export const MouseProvider: React.FC<{ children: React.ReactNode }> = ({
               style={{
                 left: t.x + "px",
                 top: t.y + "px",
-                background: isBlackBg ? "white" : "black",
+                // background: isBlackBg ? "white" : "black",
                 
               }}
             />
