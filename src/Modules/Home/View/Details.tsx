@@ -6,7 +6,6 @@ import {
   clearSelectedProduct,
 } from "../../../store/homeSlice";
 import { openModal } from "../../../store/modalSlice";
-import CustomSection from "../../../components/CustomSection";
 
 const Details: React.FC = () => {
   const { id } = useParams<{ id: string }>();

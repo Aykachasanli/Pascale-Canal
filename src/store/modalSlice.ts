@@ -78,6 +78,7 @@ export const modalSlice = createSlice({
     // Növbəti addıma keçir
     goToNextStep: (state) => {
       state.currentStep += 1;
+    
     },
     // Əvvəlki addıma keçir
     goToPreviousStep: (state) => {

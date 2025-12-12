@@ -1,161 +1,147 @@
-import React, { useState } from "react";
+import React from "react";
 import { useAppDispatch } from "../../store/hooks";
 import { goToNextStep, goToPreviousStep } from "../../store/modalSlice";
-
-interface CoordinatesState {
-  prenom: string; 
-  nom: string; 
-  email: string; 
-  telephone: string; 
-}
+import { object, string } from "yup";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { StepEmail } from "../Service/ServiceStep3";
+import type { IStepFormValues } from "../Models/Step3Models";
 
 const Step3_Coordinates: React.FC = () => {
   const dispatch = useAppDispatch();
-  
-  const [coordinates, setCoordinatesState] = useState<CoordinatesState>({
-    prenom: "",
-    nom: "",
-    email: "",
-    telephone: "",
+  const buyChame = object({
+    firsName: string()
+      .trim()
+      .required("Ad mütləq daxil edilməlidir")
+      .matches(
+        /^[A-Za-zƏəÖöÜüĞğÇçİıŞş\s'-]+$/,
+        "Ad yalnız hərflərdən ibarət olmalıdır"
+      )
+      .min(2, "Ad ən azı 2 hərfdən ibarət olmalıdır"),
+    surname: string()
+      .trim()
+      .required("Soyad mütləq daxil edilməlidir")
+      .matches(
+        /^[A-Za-zƏəÖöÜüĞğÇçİıŞş\s'-]+$/,
+        "Soyad yalnız hərflərdən ibarət olmalıdır"
+      )
+      .min(2, "Soyad ən azı 2 hərfdən ibarət olmalıdır"),
+    email: string()
+      .trim()
+      .required("Email mütləq daxil edilməlidir")
+      .matches(
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+        "Zəhmət olmasa düzgün email daxil edin"
+      ),
+    phone: string()
+      .trim()
+      .required("Telefon nömrəsi mütləq daxil edilməlidir")
+      .matches(
+        /^\+?[0-9]{7,15}$/,
+        "Zəhmət olmasa düzgün telefon nömrəsi daxil edin"
+      ),
   });
 
-  const [errors, setErrors] = useState<Partial<CoordinatesState>>({});
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isValid },
+  } = useForm<IStepFormValues>({
+    resolver: yupResolver(buyChame),
+    mode: "all",
+  });
 
-  const nameRegex = /^[A-Za-zÇçĞğİıÖöŞşÜü' -]+$/;
-  const phoneRegex = /^[0-9\s()+-]+$/;
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setCoordinatesState((prev) => ({ ...prev, [name]: value }));
-    
-    if (errors[name as keyof CoordinatesState]) {
-        setErrors((prev) => ({ ...prev, [name]: undefined }));
-    }
-  };
-
-  const validate = (): boolean => {
-    const newErrors: Partial<CoordinatesState> = {};
-
-    if (!coordinates.prenom.trim()) {
-        newErrors.prenom = "Ad sahəsi tələb olunur.";
-    } else if (!nameRegex.test(coordinates.prenom.trim())) {
-        newErrors.prenom = "Ad yalnız hərflərdən ibarət olmalıdır.";
-    }
-
-    if (!coordinates.nom.trim()) {
-        newErrors.nom = "Soyad sahəsi tələb olunur.";
-    } else if (!nameRegex.test(coordinates.nom.trim())) {
-        newErrors.nom = "Soyad yalnız hərflərdən ibarət olmalıdır.";
-    }
-
-    if (!coordinates.email.trim()) {
-      newErrors.email = "Email sahəsi tələb olunur.";
-    } else if (!emailRegex.test(coordinates.email.trim())) {
-      newErrors.email = "Düzgün email ünvanı daxil edin (@ simvolu tələb olunur).";
-    }
-
-    if (!coordinates.telephone.trim()) {
-      newErrors.telephone = "Telefon nömrəsi tələb olunur.";
-    } else if (!phoneRegex.test(coordinates.telephone.trim())) {
-        newErrors.telephone = "Telefon nömrəsi yalnız rəqəm və simvollardan (+, -, (, )) ibarət olmalıdır.";
-    }
-    
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0; 
-  };
-
-  const isFormValid = validate;
-  
-  const handleNext = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (validate()) {
-      
+  const onSubmit = async (data: IStepFormValues) => {
+    try {
+      await StepEmail(data);
       dispatch(goToNextStep());
+      reset();
+    } catch (error) {
+      console.log(error);
     }
   };
-  
-  const isButtonActive = 
-      coordinates.prenom.trim() !== "" &&
-      coordinates.nom.trim() !== "" &&
-      coordinates.email.trim() !== "" &&
-      coordinates.telephone.trim() !== "";
 
   return (
     <div className="step-content step-3-coordinates">
       <h3>Vos coordonnées</h3>
       <p>Zəhmət olmasa, əlaqə məlumatlarınızı daxil edin.</p>
 
-      <form onSubmit={handleNext} className="coordinates-form">
-        
+      <form onSubmit={handleSubmit(onSubmit)} className="coordinates-form">
         <div className="form-group-inline">
+          {/* Ad Inputu */}
           <div className="input-container">
             <input
               type="text"
-              name="prenom"
               placeholder="Prénom*"
-              value={coordinates.prenom}
-              onChange={handleChange}
-              className={errors.prenom ? 'input-error' : ''}
+              className={errors.firsName ? "input-error" : ""}
+              {...register("firsName")}
             />
-            {errors.prenom && <span className="error-message">{errors.prenom}</span>}
+            {/* Səhv varsa mesaj çıxır */}
+            {errors.firsName && (
+              <p className="error-message">{errors.firsName.message}</p>
+            )}
           </div>
-          
+
+          {/* Soyad Inputu */}
           <div className="input-container">
             <input
               type="text"
-              name="nom"
               placeholder="Nom*"
-              value={coordinates.nom}
-              onChange={handleChange}
-              className={errors.nom ? 'input-error' : ''}
+              className={errors.surname ? "input-error" : ""}
+              {...register("surname")}
             />
-            {errors.nom && <span className="error-message">{errors.nom}</span>}
+            {errors.surname && (
+              <span className="error-message">{errors.surname.message}</span>
+            )}
           </div>
         </div>
 
+        {/* Email Inputu */}
         <div className="form-group">
           <input
             type="email"
-            name="email"
             placeholder="Email*"
-            value={coordinates.email}
-            onChange={handleChange}
-            className={errors.email ? 'input-error' : ''}
+            className={errors.email ? "input-error" : ""}
+            {...register("email")}
           />
-          {errors.email && <span className="error-message">{errors.email}</span>}
+          {errors.email && (
+            <span className="error-message">{errors.email.message}</span>
+          )}
         </div>
 
+        {/* Telefon Inputu */}
         <div className="form-group">
           <input
             type="tel"
-            name="telephone"
             placeholder="Téléphone*"
-            value={coordinates.telephone}
-            onChange={handleChange}
-            className={errors.telephone ? 'input-error' : ''}
+            className={errors.phone ? "input-error" : ""}
+            {...register("phone")}
           />
-          {errors.telephone && <span className="error-message">{errors.telephone}</span>}
+          {errors.phone && (
+            <span className="error-message">{errors.phone.message}</span>
+          )}
         </div>
-
         <div className="form-navigation-footer">
-            <button
-                type="button" 
-                className="precedent-btn"
-                onClick={() => dispatch(goToPreviousStep())}
-            >
-                Précédent
-            </button>
-            
-            <button
-                type="submit" 
-                className="suivant-btn"
-                disabled={!isButtonActive} 
-            >
-                Suivant
-            </button>
+          <button
+            type="button"
+            className="precedent-btn"
+            onClick={() => dispatch(goToPreviousStep())}
+          >
+            Précédent
+          </button>
+          <button
+            type="submit"
+            className="suivant-btn"
+            disabled={!isValid}
+            style={{
+              opacity: !isValid ? 0.5 : 1,
+              cursor: !isValid ? "not-allowed" : "pointer",
+            }}
+          >
+            Suivant
+          </button>
         </div>
-
       </form>
     </div>
   );

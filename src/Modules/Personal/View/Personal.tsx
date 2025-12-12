@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import emailjs from "@emailjs/browser";
-import { useLocation, useNavigate } from "react-router-dom";
-// İnterfeysləri ayrıca bir fayldan (məsələn, src/types/interfaces.ts) import etdiyinizi fərz edirik
-// Lakin bu nümunədə, bütün kodu bir yerdə saxlamaq üçün onları buraya daxil edirik.
+import { useNavigate } from "react-router-dom";
+import { object, string } from "yup";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import type { IPersonalFormValues } from "../Models/PersonalModels";
+import { PersonalEmail } from "../Service/PersonalService";
 
-// ** TİPLƏRİN BURADA TƏKRAR TƏYİN EDİLMƏSİ **
 interface CustomSectionProps {
   children: React.ReactNode;
   className: string;
@@ -92,111 +92,48 @@ const CollectionBanner: React.FC = () => {
 };
 
 const Personal: React.FC = () => {
-  // PersonalFormData interfeysindən istifadə edərək state-in tipini təyin edirik
-  const [formData, setFormData] = useState<PersonalFormData>({
-    vision: "",
-    name: "",
-    email: "",
-    phone: "",
-    agreed: false,
+  const personalChema = object({
+    firsName: string()
+      .trim()
+      .required()
+      .matches(
+        /^[A-Za-zƏəÖöÜüĞğÇçİıŞş]{2,}$/,
+        "Name must contain at least 2 letters"
+      ),
+    email: string()
+      .trim()
+      .required()
+      .matches(
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+        "Please enter a valid email address"
+      ),
+    phone: string()
+      .trim()
+      .required()
+      .matches(/^\+?[0-9]{7,15}$/, "Please enter a valid phone number"),
+    vision: string()
+      .required()
+      .matches(
+        /^[A-Za-zƏəÖöÜüĞğÇçİıŞş]{2,}$/,
+        "Name must contain at least 2 letters"
+      ),
   });
-
-  const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
-  // FormStatus union type-dan istifadə edirik
-  const [status, setStatus] = useState<FormStatus>("idle");
-  // FormErrors interfeysindən istifadə edirik
-  const [formErrors, setFormErrors] = useState<FormErrors>({});
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    // Tipi `PersonalFormData` olduğu üçün `name` xassəsinin düzgünlüyü təmin edilir.
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    setFormErrors((prev) => ({ ...prev, [name]: "" }));
-  };
-
-  const handleCheckbox = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData((prev) => ({ ...prev, agreed: e.target.checked }));
-    setFormErrors((prev) => ({ ...prev, agreed: "" }));
-  };
-
-  // Əsas Yoxlama Funksiyası
-  const validateForm = (): boolean => {
-    const errors: FormErrors = {}; // FormErrors tipindən istifadə
-    let isValid = true;
-
-    // Mail Yoxlaması
-    if (!formData.email) {
-      errors.email = "E-poçt sahəsi tələb olunur.";
-      isValid = false;
-    } else if (!validateEmail(formData.email)) {
-      errors.email = "Xahiş olunur düzgün e-poçt formatı daxil edin.";
-      isValid = false;
-    }
-    // Ad və Vizyon Yoxlaması
-    if (!formData.name) {
-      errors.name = "Ad sahəsi tələb olunur.";
-      isValid = false;
-    }
-    if (!formData.vision) {
-      errors.vision = "Vizyon (təsvir) sahəsi tələb olunur.";
-      isValid = false;
-    }
-    // Razılaşma Yoxlaması
-    if (!formData.agreed) {
-      errors.agreed = "Şərtlərlə razılaşmaq tələb olunur.";
-      isValid = false;
-    }
-
-    setFormErrors(errors);
-    return isValid;
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!validateForm()) {
-      setStatus("idle");
-      return;
-    }
-
-    setStatus("sending");
-
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<IPersonalFormValues>({
+    resolver: yupResolver(personalChema),
+  });
+  const onSubmit = async (data: IPersonalFormValues) => {
     try {
-      const templateParams = {
-        to_name: "Admin",
-        from_name: formData.name,
-        from_email: formData.email,
-        phone: formData.phone,
-        message: formData.vision,
-      };
-
-      await emailjs.send(
-        "service_xkj4atr",
-        "template_cwl1snh",
-        templateParams,
-        "F7784TWvo8WCMqkCP"
-      );
-
-      setStatus("success");
-      // Göndərilmədən sonra formu sıfırlayırıq
-      setFormData({
-        vision: "",
-        name: "",
-        email: "",
-        phone: "",
-        agreed: false,
-      });
-      setSelectedFiles(null);
-      alert("Müraciətiniz uğurla göndərildi!");
+      await PersonalEmail(data);
+      reset();
     } catch (error) {
-      console.error("FAILED...", error);
-      setStatus("error");
-      alert("Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.");
+      console.log(error);
     }
   };
-
   return (
     <CustomSection className="personal">
       <div className="container">
@@ -258,23 +195,24 @@ const Personal: React.FC = () => {
             <div className="order-layout">
               <div className="form-side">
                 <h2 className="section-title">Your Project</h2>
-
-                <form className="project-form" onSubmit={handleSubmit}>
+                <form
+                  className="project-form"
+                  onSubmit={handleSubmit(onSubmit)}
+                >
                   <div className="form-group box-group">
                     <label>
                       Your vision <span>*</span>
                     </label>
                     <textarea
-                      name="vision"
                       placeholder="Describe your project..."
-                      value={formData.vision}
-                      onChange={handleChange}
+                      {...register("vision", {
+                        required: "əhmət olmasa layihə vizyonunuzu daxil edin.",
+                      })}
                     ></textarea>
-                    {formErrors.vision && (
-                      <p className="error-message">{formErrors.vision}</p>
+                    {errors.vision && (
+                      <p className="error-message">{errors.vision.message}</p>
                     )}
                   </div>
-
                   <div className="form">
                     <div className="row">
                       <div className="form-group line-group">
@@ -283,12 +221,14 @@ const Personal: React.FC = () => {
                         </label>
                         <input
                           type="text"
-                          name="name"
-                          value={formData.name}
-                          onChange={handleChange}
+                          {...register("firsName", {
+                            required: "Birinci ad tələb olunur",
+                          })}
                         />
-                        {formErrors.name && (
-                          <p className="error-message">{formErrors.name}</p>
+                        {errors.firsName && (
+                          <p className="error-message">
+                            {errors.firsName.message}
+                          </p>
                         )}
                       </div>
                       <div className="form-group line-group">
@@ -296,13 +236,15 @@ const Personal: React.FC = () => {
                           Email <span>*</span>
                         </label>
                         <input
-                          type="text"
-                          name="email"
-                          value={formData.email}
-                          onChange={handleChange}
+                          type="email"
+                          {...register("email", {
+                            required: "Email tələb olunur",
+                          })}
                         />
-                        {formErrors.email && (
-                          <p className="error-message">{formErrors.email}</p>
+                        {errors.email && (
+                          <p className="error-message">
+                            {errors.email.message}
+                          </p>
                         )}
                       </div>
 
@@ -310,22 +252,22 @@ const Personal: React.FC = () => {
                         <label>Phone</label>
                         <input
                           type="tel"
-                          name="phone"
-                          value={formData.phone}
-                          onChange={handleChange}
+                          {...register("phone", {
+                            required: "Telefon nömrəsi tələb olunur",
+                          })}
                         />
+                        {errors.phone && (
+                          <p className="error-message">
+                            {errors.phone.message}
+                          </p>
+                        )}
                       </div>
                     </div>
                   </div>
 
                   <div className="form-footer">
                     <div className="checkbox-wrapper">
-                      <input
-                        type="checkbox"
-                        id="privacy"
-                        checked={formData.agreed}
-                        onChange={handleCheckbox}
-                      />
+                      <input type="checkbox" id="privacy" />
                       <label htmlFor="privacy">
                         I agree that my personal data will be used solely for
                         the purpose of processing my custom order request. This
@@ -333,9 +275,6 @@ const Personal: React.FC = () => {
                         stored in accordance with the privacy policy .
                       </label>
                     </div>
-                    {formErrors.agreed && (
-                      <p className="error-message">{formErrors.agreed}</p>
-                    )}
 
                     <button
                       type="submit"

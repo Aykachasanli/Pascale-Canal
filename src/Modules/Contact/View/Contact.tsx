@@ -1,44 +1,53 @@
-import React from "react";
-// SubmitHandler tipinin düzgün idxalı
-import { useForm, type SubmitHandler } from "react-hook-form";
-
-// Interface'in adını düzəltdim, çünki komponentin adı da CustomSectionProps idi
-interface CustomSectionProps {
-  children: React.ReactNode;
-  className: string;
-}
-
-// CustomSection komponenti (sadəcə dəstək üçün saxlanılır)
-const CustomSection: React.FC<CustomSectionProps> = ({
-  children,
-  className,
-}) => <section className={className}>{children}</section>;
-
-// Forma məlumatları üçün TypeScript interfeysi
-interface IContactFormInputs {
-  firstName: string;
-  name: string;
-  email: string;
-  phone: string;
-}
-
+import CustomSection from "../../../components/CustomSection";
+import { contactEmail } from "../Service/ContactService";
+import type { IContactFormValues } from "../Models/IContactForm";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { object, string } from "yup";
 const Contact = () => {
+  const contactChema = object({
+    name: string()
+      .trim()
+      .required()
+      .matches(
+        /^[A-Za-zƏəÖöÜüĞğÇçİıŞş]{2,}$/,
+        "Name must contain at least 2 letters"
+      ),
+    firsName: string()
+      .trim()
+      .required()
+      .matches(
+        /^[A-Za-zƏəÖöÜüĞğÇçİıŞş]{2,}$/,
+        "Name must contain at least 2 letters"
+      ),
+    email: string()
+      .trim()
+      .required()
+      .matches(
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+        "Please enter a valid email address"
+      ),
+    phone: string()
+      .trim()
+      .required()
+      .matches(/^\+?[0-9]{7,15}$/, "Please enter a valid phone number"),
+  });
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
-  } = useForm<IContactFormInputs>();
-
-  const onSubmit: SubmitHandler<IContactFormInputs> = (data) => {
-    console.log("Form məlumatları:", data);
-    alert(`Form uğurla göndərildi! Məlumatlar:
-    Ad: ${data.firstName}
-    Soyad: ${data.name}
-    Email: ${data.email}
-    Telefon: ${data.phone}`);
-    // Burada məlumatları serverə göndərmə funksiyasını əlavə edə bilərsiniz.
+  } = useForm<IContactFormValues>({
+    resolver: yupResolver(contactChema),
+  });
+  const onSubmit = async (data: IContactFormValues) => {
+    try {
+      await contactEmail(data);
+      reset();
+    } catch (error) {
+      console.log(error);
+    }
   };
-
   return (
     <CustomSection className="contact">
       <div className="container">
@@ -186,15 +195,15 @@ const Contact = () => {
                           type="text"
                           placeholder="First name*"
                           className={`form-input ${
-                            errors.firstName ? "input-error" : ""
+                            errors.firsName ? "input-error" : ""
                           }`}
-                          {...register("firstName", {
+                          {...register("firsName", {
                             required: "Birinci ad tələb olunur",
                           })}
                         />
-                        {errors.firstName && (
+                        {errors.firsName && (
                           <p className="error-message">
-                            {errors.firstName.message}
+                            {errors.firsName.message}
                           </p>
                         )}
                       </div>
@@ -244,6 +253,9 @@ const Contact = () => {
                         className="form-input"
                         {...register("phone")}
                       />
+                      {errors.phone && (
+                        <p className="error-message">{errors.phone.message}</p>
+                      )}
                     </div>
 
                     {/* Təqdim et (Submit) düyməsi */}
