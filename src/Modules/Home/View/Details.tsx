@@ -6,12 +6,14 @@ import {
   clearSelectedProduct,
 } from "../../../store/homeSlice";
 import { openModal } from "../../../store/modalSlice";
+import CustomSection from "../../../components/CustomSection";
 
 const Details: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { selectedProduct, loading } = useAppSelector((state) => state.home);
+
 
   const IMAGE_BASE_URL =
     import.meta.env.VITE_IMAGE_URL || "http://localhost:8000/";
@@ -44,23 +46,35 @@ const Details: React.FC = () => {
     }
   };
 
+  const handleShare = () => {
+    const url = encodeURIComponent(window.location.href);
+    window.location.href = `mailto:?subject=Check this out&body=${url}`;
+  };
+
   if (loading && !selectedProduct) {
-    return <div className="loading-state">Məhsul detalları yüklənir...</div>;
+    return <div className="loading-state">Loading product details...</div>;
   }
 
   if (!selectedProduct) return null;
 
   return (
-    <div className="details-page">
-      <header className="details-header">
+    <CustomSection className="details-page">
+<div className="container">
+  <div className="row">
+          <div className="details-header">
         <button className="back-btn" onClick={() => navigate("/")}>
-          ←
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19 12H5" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M12 19L5 12L12 5" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
         </button>
-        <h1 className="product-name">{selectedProduct.name}</h1>
-        <p className="author">
-          painted by <span>{selectedProduct.author || "Pascale Canal"}</span>
-        </p>
-      </header>
+        <div className="header-content">
+          <h1 className="product-name">{selectedProduct.name}</h1>
+          <p className="author">
+            peint par <span>{selectedProduct.author || "Pascale Canal"}</span>
+          </p>
+        </div>
+      </div>
 
       <section className="details-content">
         <div className="image-side">
@@ -75,18 +89,21 @@ const Details: React.FC = () => {
             <h2>Choose the format</h2>
             <div className="option active">
               <div>
-                <input type="radio" checked readOnly />
+
                 <span>Original painting</span>
-                <span className="tag">Unique</span>
               </div>
-              <p>{selectedProduct.price} €</p>
+              <p>{selectedProduct.price} $</p>
             </div>
           </div>
 
           <div className="details">
             <h2>Details</h2>
+
+             {selectedProduct.details && (
+              <p className="product-description">{selectedProduct.details}</p>
+            )}
             <p>
-              <strong>Price:</strong> {selectedProduct.price} €
+              <strong>Price:</strong> {selectedProduct.price} $
             </p>
             {selectedProduct.dimensions && (
               <p>
@@ -109,11 +126,15 @@ const Details: React.FC = () => {
             <button className="buy-btn" onClick={handleOpenModal}>
               Contact us to purchase
             </button>
-            <button className="share-btn">Share</button>
+            <button className="share-btn" onClick={handleShare}>
+                Share
+            </button>
           </div>
         </div>
       </section>
-    </div>
+  </div>
+</div>
+    </CustomSection>
   );
 };
 

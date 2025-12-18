@@ -1,53 +1,17 @@
 import CustomSection from "../../../components/CustomSection";
-import { contactEmail } from "../Service/ContactService";
-import type { IContactFormValues } from "../Models/IContactForm";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { object, string } from "yup";
+import { useContactProvider } from "../Provider/ContactProvider";
+import { CircleOverlay } from "../../../components/animation/CircleOverlay";
+
 const Contact = () => {
-  const contactChema = object({
-    name: string()
-      .trim()
-      .required()
-      .matches(
-        /^[A-Za-zƏəÖöÜüĞğÇçİıŞş]{2,}$/,
-        "Name must contain at least 2 letters"
-      ),
-    firsName: string()
-      .trim()
-      .required()
-      .matches(
-        /^[A-Za-zƏəÖöÜüĞğÇçİıŞş]{2,}$/,
-        "Name must contain at least 2 letters"
-      ),
-    email: string()
-      .trim()
-      .required()
-      .matches(
-        /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-        "Please enter a valid email address"
-      ),
-    phone: string()
-      .trim()
-      .required()
-      .matches(/^\+?[0-9]{7,15}$/, "Please enter a valid phone number"),
-  });
+  const { loading, formMethods, onSubmit } = useContactProvider();
   const {
     register,
-    handleSubmit,
-    reset,
     formState: { errors },
-  } = useForm<IContactFormValues>({
-    resolver: yupResolver(contactChema),
-  });
-  const onSubmit = async (data: IContactFormValues) => {
-    try {
-      await contactEmail(data);
-      reset();
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  } = formMethods;
+
+  if (loading) {
+    return <CircleOverlay />;
+  }
   return (
     <CustomSection className="contact">
       <div className="container">
@@ -60,15 +24,12 @@ const Contact = () => {
           </div>
           <section className="bottom">
             <div className="row">
-              {/* SAĞ TƏRƏF: Əlaqə Məlumatları və Sosial Linklər */}
               <div className="right">
                 <div className="contact-details-card">
                   <h3 className="card-title">Contact details</h3>
                   <div className="contact-info-list">
-                    {/* 1. Email (mailto linki ilə düzəldilmiş) */}
                     <div className="contact-item">
                       <span className="icon">
-                        {/* Mail iconu */}
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="24"
@@ -84,7 +45,6 @@ const Contact = () => {
                           <polyline points="22,6 12,13 2,6"></polyline>
                         </svg>
                       </span>
-                      {/* E-mail ünvanı linki */}
                       <a
                         href="mailto:pascale.canal.art@gmail.com"
                         className="detail-text mail-link"
@@ -93,10 +53,8 @@ const Contact = () => {
                       </a>
                     </div>
 
-                    {/* 2. Phone */}
                     <div className="contact-item">
                       <span className="icon">
-                        {/* Phone iconu */}
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="24"
@@ -111,7 +69,6 @@ const Contact = () => {
                           <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 3.08 2h3a2 2 0 0 1 2 1.72 17.77 17.77 0 0 0 .52 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 17.77 17.77 0 0 0 2.81.52A2 2 0 0 1 22 16.92z"></path>
                         </svg>
                       </span>
-                      {/* Dəyişiklik: Telefon linki əlavə edildi */}
                       <a
                         href="tel:+33686596029"
                         className="detail-text phone-link"
@@ -123,7 +80,6 @@ const Contact = () => {
 
                   <h3 className="card-title follow-title">Follow me</h3>
                   <div className="social-links">
-                    {/* Instagram */}
                     <a
                       href="https://www.instagram.com/"
                       target="_blank"
@@ -154,7 +110,6 @@ const Contact = () => {
                       </svg>
                     </a>
 
-                    {/* LinkedIn */}
                     <a
                       href="https://www.linkedin.com/"
                       target="_blank"
@@ -180,15 +135,13 @@ const Contact = () => {
                   </div>
                 </div>
               </div>
-              {/* SOL TƏRƏF: Forma */}
               <div className="left">
                 <div className="contact-form-card">
                   <h3 className="card-title">Your contact details</h3>
                   <form
-                    onSubmit={handleSubmit(onSubmit)}
+                    onSubmit={onSubmit}
                     className="contact-form"
                   >
-                    {/* Birinci Ad və Soyad (First Name, Name) */}
                     <div className="form-group-inline">
                       <div className="input-container">
                         <input
@@ -210,21 +163,20 @@ const Contact = () => {
                       <div className="input-container">
                         <input
                           type="text"
-                          placeholder="Name*"
+                          placeholder="Surname*"
                           className={`form-input ${
-                            errors.name ? "input-error" : ""
+                            errors.surname ? "input-error" : ""
                           }`}
-                          {...register("name", {
+                          {...register("surname", {
                             required: "Soyad tələb olunur",
                           })}
                         />
-                        {errors.name && (
-                          <p className="error-message">{errors.name.message}</p>
+                        {errors.surname && (
+                          <p className="error-message">{errors.surname.message}</p>
                         )}
                       </div>
                     </div>
 
-                    {/* E-mail */}
                     <div className="input-container">
                       <input
                         type="email"
@@ -245,7 +197,6 @@ const Contact = () => {
                       )}
                     </div>
 
-                    {/* Phone */}
                     <div className="input-container">
                       <input
                         type="tel"
@@ -258,7 +209,6 @@ const Contact = () => {
                       )}
                     </div>
 
-                    {/* Təqdim et (Submit) düyməsi */}
                     <button type="submit" className="submit-button">
                       Send Message
                     </button>

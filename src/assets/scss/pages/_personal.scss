@@ -1,18 +1,7 @@
-$primary-text-color: #f8f8f8;
-$secondary-bg-color: #333333;
-$main-bg-color: #222222;
-$container-max-width: 1200px;
-$accent-gray: #666666;
-$accent-color: #d1d1d1;
-$accent-hover-color: #ffffff;
-$error-color: #ff4d4d;
-$highlight-color: #6a1b9a;
-
-$yellow-accent: #fff083;
-$dark-bg: #111111;
+@use "../mixin" as *;
 
 .personal {
-  background-color: $main-bg-color;
+  background-color: $bg-main;
   padding-top: 50px;
   position: relative;
   overflow-x: hidden;
@@ -34,12 +23,13 @@ $dark-bg: #111111;
           line-height: 1.2;
           max-width: 60%;
           text-transform: capitalize;
-          color: $primary-text-color;
+          color: $text-main;
 
           @media (max-width: 1024px) {
             font-size: 64px;
             line-height: 1.1;
             max-width: 55%;
+           
           }
 
           @media (max-width: 768px) {
@@ -50,7 +40,7 @@ $dark-bg: #111111;
         }
 
         .info {
-          background-color: rgba($secondary-bg-color, 0.849);
+          background-color: rgba($bg-surface, 0.849);
           backdrop-filter: blur(5px);
           -webkit-backdrop-filter: blur(5px);
           color: white;
@@ -66,8 +56,11 @@ $dark-bg: #111111;
           font-style: italic;
           flex-shrink: 0;
 
-          @media (max-width: 768px) {
-            display: none;
+          @media (max-width: 1024px) {
+          
+
+      margin-left: 20px;
+          
           }
         }
 
@@ -84,7 +77,7 @@ $dark-bg: #111111;
         font-size: 36px;
         font-family: "regular";
         width: 640px;
-        color: $primary-text-color;
+        color: $text-main;
         line-height: 60px;
       }
     }
@@ -151,8 +144,8 @@ $dark-bg: #111111;
 
   .order-container {
     padding: 100px 0;
-    background-color: $main-bg-color;
-    color: $primary-text-color;
+    background-color: $bg-main;
+    color: $text-main;
     overflow: hidden;
     .container {
       .row {
@@ -193,27 +186,32 @@ $dark-bg: #111111;
               }
 
               .error-message {
-                color: $error-color;
+                color: $color-error;
                 font-size: 14px;
                 margin-top: 8px;
                 padding-left: 20px;
               }
 
               .box-group {
-                width: 700px;
+                width: 100%;
+                max-width: 700px;
                 border: 1px solid rgba(255, 255, 255, 0.159);
                 border-radius: 10px;
                 padding: 80px;
                 margin: 0 auto;
-                background-color: rgba($secondary-bg-color, 0.849);
+                background-color: rgba($bg-surface, 0.849);
                 backdrop-filter: blur(5px);
                 -webkit-backdrop-filter: blur(2px);
                 margin-top: 60px;
+
+                @media (max-width: 768px) {
+                  padding: 40px 20px;
+                }
                 label {
                   font-size: 30px;
                   margin-left: 15px;
                   span {
-                    color: $yellow-accent;
+                    color: $color-accent;
                   }
                 }
                 textarea {
@@ -234,30 +232,51 @@ $dark-bg: #111111;
               }
 
               .form {
-                width: 500px;
-                height: 700px;
+                width: 100%;
+                max-width: 500px;
+                height: auto;
+                min-height: 700px;
                 border: 1px solid rgba(255, 255, 255, 0.171);
                 border-radius: 10px;
-                background-color: rgba($secondary-bg-color, 0.849);
+                background-color: rgba($bg-surface, 0.849);
                 backdrop-filter: blur(5px);
                 -webkit-backdrop-filter: blur(2px);
                 margin-top: 90px;
                 font-family: "bold";
+
+                @media (max-width: 900px) {
+                  margin: 0 auto;
+                  margin-top: 40px;
+                }
                 .row {
-                  .line-group {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;      
+             .line-group {
+          margin-left: -15rem;
                     label {
                       font-size: 25px;
                       margin: 70px;
+                      @media (max-width: 768px) {
+                        margin: 40px;
+                      }
                       span {
-                        color: $yellow-accent;
+                        color: $color-accent;
                       }
                     }
                     input {
-                      width: 80%;
+                      width: 100%;
                       background: transparent;
                       border: none;
                       border-bottom: 1px solid rgba(255, 255, 255, 0.2);
                       margin: 0 45px;
+                      
+                      @media (max-width: 768px) {
+                        width: 100%;
+                        margin: 0;
+                        padding: 0 20px;
+                        box-sizing: border-box;
+                      }
                       color: white;
                       font-size: 16px;
                       transition: border-color 0.3s;
@@ -291,7 +310,7 @@ $dark-bg: #111111;
                     width: 20px;
                     height: 20px;
                     border-radius: 8px;
-                    accent-color: $accent-gray;
+                    accent-color: $text-gray;
                     cursor: pointer;
                   }
 
@@ -307,8 +326,8 @@ $dark-bg: #111111;
 
                 .submit-btn {
                   padding: 15px 40px;
-                  background-color: $accent-color;
-                  color: $main-bg-color;
+                  background-color: $text-muted;
+                  color: $bg-main;
                   border: none;
                   border-radius: 30px;
                   font-size: 16px;
@@ -318,7 +337,7 @@ $dark-bg: #111111;
                     opacity 0.3s;
 
                   &:hover:not(:disabled) {
-                    background-color: $accent-hover-color;
+                    background-color: $text-light;
                     transform: translateY(-2px);
                   }
 
@@ -329,12 +348,13 @@ $dark-bg: #111111;
                   }
                 }
               }
+
             }
           }
 
           .info-side {
             flex: 0.8;
-            padding-top: 20px;
+            padding-top: 12rem;
 
             .info-title {
               font-size: 32px;
@@ -357,7 +377,7 @@ $dark-bg: #111111;
                   flex-shrink: 0;
                   width: 40px;
                   height: 40px;
-                  background-color: $accent-gray;
+                  background-color: $text-gray;
                   border-radius: 50%;
                   display: flex;
                   align-items: center;
@@ -409,6 +429,7 @@ $dark-bg: #111111;
 
       .container {
         .row {
+        
           &::before {
             content: "";
             position: absolute;
@@ -419,7 +440,7 @@ $dark-bg: #111111;
             border-radius: 12px 0 0 0;
             background: radial-gradient(
               circle at 10% 10%,
-              rgba($yellow-accent, 0.25) 0%,
+              rgba($color-accent, 0.25) 0%,
               transparent 70%
             );
 
@@ -429,7 +450,7 @@ $dark-bg: #111111;
             transition: opacity 0.5s ease;
           }
 
-          // --- YENİ: Sağ Aşağı Künc Kölgəsi ---
+
           &::after {
             content: "";
             position: absolute;
@@ -439,10 +460,10 @@ $dark-bg: #111111;
             height: 150px;
             border-radius: 0 0 12px 0;
 
-            // Küncdən yayılan işıq effekti
+
             background: radial-gradient(
               circle at 90% 90%,
-              rgba($yellow-accent, 0.25) 0%,
+              rgba($color-accent, 0.25) 0%,
               transparent 70%
             );
 
@@ -464,8 +485,8 @@ $dark-bg: #111111;
             font-size: 0.75rem;
             font-weight: 700;
             letter-spacing: 1px;
-            color: $dark-bg;
-            background-color: $yellow-accent;
+            color: $bg-dark;
+            background-color: $color-accent;
             border-radius: 4px;
             margin-bottom: 0.5rem;
             font-family: "medium";
@@ -474,7 +495,7 @@ $dark-bg: #111111;
           h2 {
             font-size: 2.2rem;
             font-weight: 800;
-            color: $primary-text-color;
+            color: $text-main;
             line-height: 1.2;
             margin-top: 0.5rem;
             margin-bottom: 0.7rem;
@@ -486,10 +507,11 @@ $dark-bg: #111111;
               content: "";
               position: absolute;
               left: 0;
-              bottom: -8px;
+              bottom: -10px;
               width: 80px;
-              height: 3px;
-              background-color: $yellow-accent;
+              height: 4px;
+              border-radius: 10px;
+              background-color: $color-accent;
               transition: width 0.4s ease;
             }
           }
@@ -498,24 +520,25 @@ $dark-bg: #111111;
             font-size: 1rem;
             color: #aaa;
             max-width: 100%;
-            margin-top: 1.5rem;
+            margin-top: 2rem;
             font-family: "regular";
           }
 
           .explore-button {
             background: transparent;
-            color: $yellow-accent;
-            border: 0.2px solid $yellow-accent;
+            color: $color-accent;
+            border: 0.2px solid $color-accent;
             padding: 20px 60px;
             font-size: 1rem;
             margin-top: 60px;
             font-weight: 600;
             border-radius: 40px;
             height: 70px;
+            margin-left: 20rem;
             cursor: pointer;
             overflow: hidden;
             position: relative;
-            // justify-content: center;
+            justify-content: center;
             display: flex;
             background-image: linear-gradient(
               to right,
@@ -529,13 +552,14 @@ $dark-bg: #111111;
 
             .button-text {
               margin-top: 5px;
+              width: auto; 
             }
 
             .arrow-icon {
               display: inline-block;
               transition: transform 0.4s ease;
               margin: 3px 0px 0px 15px;
-              transform: translateX(5px);
+             
               color: #fff083;
             }
 
@@ -551,16 +575,26 @@ $dark-bg: #111111;
 
           @media (max-width: 992px) {
             flex-direction: column;
-            align-items: flex-start;
-            padding: 2.5rem;
+
+
 
             .left-content {
-              max-width: 100%;
+
               margin-bottom: 2rem;
+            }
+
+            .explore-button {
+              margin-top: 20px;
+
+              width: 300px;
+              margin-left: -3rem;
+              height: 80px;
+            
             }
 
             h2 {
               font-size: 2rem;
+           
             }
           }
         }

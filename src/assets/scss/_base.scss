@@ -1,3 +1,5 @@
+@use "./variables" as *;
+
 @font-face {
   font-family: "bold";
   src: url("../fonts/bold.ttf");
@@ -36,9 +38,13 @@
   list-style: none;
   text-decoration: none;
   box-sizing: border-box;
+  scrollbar-color: $color-accent $bg-main;
+}
+
+html, body {
+  width: 100%;
   overflow-x: hidden;
-  scrollbar-color: #fff083 #2b2b2b;
- 
+  position: relative;
 }
 
 

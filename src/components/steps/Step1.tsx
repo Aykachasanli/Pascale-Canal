@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
-  updateSelectedFormat,
   goToNextStep,
   toggleRelatedArtwork,
 } from "../../store/modalSlice";
@@ -16,22 +15,21 @@ const IMAGE_BASE_URL = import.meta.env.VITE_IMAGE_URL;
 
 const Step1: React.FC<Step1Props> = ({ product }) => {
   const dispatch = useAppDispatch();
-  const { products, loading, error } = useHomeProvider();
+  const { products, loading } = useHomeProvider();
+  
 
-  const availableFormats = [
-    {
-      name: "Œuvre originale",
-      price: product.price,
-      type: "original" as const,
-      isAvailable: true,
-      tag: "Unique",
-    },
-  ];
+  const [imagesLoaded, setImagesLoaded] = useState(0);
+  const relatedProducts = products
+    .filter((item) => item._id !== product.artworkId)
+    .slice(0, 9);
+  const totalImages = relatedProducts.length + 1;
+  const isImagesLoading = imagesLoaded < totalImages;
 
-  const handleFormatChange = (format: (typeof availableFormats)[number]) => {
-    console.log(format, "format");
-    dispatch(updateSelectedFormat(format));
+  const handleImageLoad = () => {
+    setImagesLoaded((prev) => prev + 1);
   };
+
+
 
   const handleNext = () => {
     dispatch(goToNextStep());
@@ -61,16 +59,40 @@ const Step1: React.FC<Step1Props> = ({ product }) => {
     dispatch(toggleRelatedArtwork(formatted));
   };
 
+  if (loading) {
+    return (
+      <div className="step-content step-1 step-loading">
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
+          <p>Loading artworks...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="step-content step-1">
+    <div className={`step-content step-1 ${isImagesLoading ? 'images-loading' : ''}`}>
+      {isImagesLoading && (
+        <div className="loading-overlay">
+          <div className="loading-container">
+            <div className="loading-spinner"></div>
+            <p>Loading images...</p>
+          </div>
+        </div>
+      )}
       <div className="step-1-grid">
         <div className="left-side">
           <div className="artwork-display">
             
-            <img src={product.imageUrl} alt={product.name} />
+            <img 
+              src={product.imageUrl} 
+              alt={product.name} 
+              onLoad={handleImageLoad}
+              onError={handleImageLoad}
+            />
             <div className="artwork-info">
               <span className="name">{product.name}</span>
-              <span className="price">{product.price} €</span>
+              <span className="price">{product.price} $</span>
             </div>
           </div>
         </div>
@@ -79,30 +101,29 @@ const Step1: React.FC<Step1Props> = ({ product }) => {
           <h3>Are you interested in other works?</h3>
 
           <div className="related-artworks-list">
-            {products
-              .filter((item) => item._id !== product.artworkId)
-              .slice(0, 9)
-              .map((item) => (
-              
-                <div
-                  key={item._id}
-                  onClick={() => handleToggle(item)}
-                  className={`related-artwork-item ${
-                    isSelected(item._id) ? "selected" : ""
-                  }`}
-                >
-                  <img
-                    src={`${IMAGE_BASE_URL}${item.productImage}`}
-                    alt={item.name}
-                  />
-                  <span className="artwork-title">{item.name}</span>
-                </div>
+            {relatedProducts.map((item) => (
+            
+              <div
+                key={item._id}
+                onClick={() => handleToggle(item)}
+                className={`related-artwork-item ${
+                  isSelected(item._id) ? "selected" : ""
+                }`}
+              >
+                <img
+                  src={`${IMAGE_BASE_URL}${item.productImage}`}
+                  alt={item.name}
+                  onLoad={handleImageLoad}
+                  onError={handleImageLoad}
+                />
+                <span className="artwork-title">{item.name}</span>
+              </div>
 
                
-              ))}
+            ))}
           </div>
 
-          {/* <button className="view-all-btn">Voir toutes les œuvres</button> */}
+
         </div>
       </div>
 

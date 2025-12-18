@@ -1,6 +1,29 @@
-$dark-bg: #2a2a2a;         // Əsas tünd fon (Modalın xarici)
-$modal-bg: #3c3c3c;        // Modalın içindəki məzmun fonu (Modal Body)
-$text-light: #f0f0f0;      // Əsas ağ mətn
-$primary-color: #ffc107;   // Vurğu rəngi (Sarı: Aktiv addımlar)
-$secondary-color: #555;    // İkinci dərəcəli rəng (Boz: Standart düymələr, keçirilməyən addımlar)
-$border-color: #555;       // Standart kənar rəngi
+
+$bg-main: #222222;
+$bg-dark: #111111;
+$bg-darker: #000000;
+$bg-surface: #3c3c3c;
+$bg-glass: rgba(60, 60, 60, 0.7);
+
+
+$text-main: #f8f8f8;
+$text-muted: #cecece;
+$text-dark: #111111;
+$text-gray: #666666;
+$text-gray-light: #d9d9d9;
+$text-light: #ffffff;
+
+
+$color-accent: #fff083;
+$color-accent-hover: #ffeb3b; 
+$color-error: #ff4d4d;
+$color-border: rgba(255, 255, 255, 0.1);
+$bg-input: #4d4d4d;
+$bg-input-border: #555555;
+
+
+$bps-small-mobile: 480px;
+$bps-mobile: 576px;
+$bps-tablet: 768px;
+$bps-desktop: 1024px;
+$bps-large-desktop: 1440px;

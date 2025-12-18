@@ -56,7 +56,7 @@ export const modalSlice = createSlice({
   name: "modal",
   initialState,
   reducers: {
-    // Modalı açır və ilkin məhsul məlumatlarını doldurur
+
     openModal: (
       state,
       action: PayloadAction<{ product: ModalProductItem }>
@@ -64,46 +64,46 @@ export const modalSlice = createSlice({
       state.isOpen = true;
       state.currentStep = 1;
       state.product = action.payload.product;
-       state.mainProduct = action.payload.product; // store main product
-      state.selectedRelatedArtworks = []; // reset extra items
+       state.mainProduct = action.payload.product;
+      state.selectedRelatedArtworks = [];
     },
 
-    // Modalı bağlayır və bütün məlumatları sıfırlayır
+
     closeModal: (state) => {
       state.isOpen = false;
       state.currentStep = 1;
       state.product = null;
       state.buyerDetails = initialState.buyerDetails;
     },
-    // Növbəti addıma keçir
+
     goToNextStep: (state) => {
       state.currentStep += 1;
     
     },
-    // Əvvəlki addıma keçir
+
     goToPreviousStep: (state) => {
       if (state.currentStep > 1) {
         state.currentStep -= 1;
       }
     },
-    // Alıcının məlumatlarını yeniləyir
+
     updateBuyerDetails: (
       state,
       action: PayloadAction<Partial<ModalState["buyerDetails"]>>
     ) => {
       state.buyerDetails = { ...state.buyerDetails, ...action.payload };
     },
-    // Seçilmiş formatı yeniləyir (Əsasən Step1-də istifadə olunur)
+
     updateSelectedFormat: (state, action: PayloadAction<SelectedFormat>) => {
       if (state.product) {
         state.product.selectedFormat = action.payload;
-        // Əgər format orijinaldırsa, miqdarı 1 edir
+
         if (action.payload.type === "original") {
           state.product.quantity = 1;
         }
       }
     },
-    // Miqdarı yeniləyir
+
     updateQuantity: (state, action: PayloadAction<number>) => {
       if (state.product) {
         state.product.quantity = action.payload;
@@ -115,12 +115,12 @@ export const modalSlice = createSlice({
       );
 
       if (exists) {
-        // remove it
+
         state.selectedRelatedArtworks = state.selectedRelatedArtworks.filter(
           (item) => item.artworkId !== action.payload.artworkId
         );
       } else {
-        // add it
+
         state.selectedRelatedArtworks.push(action.payload);
       }
     },

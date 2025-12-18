@@ -1,3 +1,5 @@
+@use "../mixin" as *;
+
 .header {
   width: 100%;
   font-family: "medium";
@@ -7,19 +9,45 @@
   z-index: 999;
 
   .container {
+    @include respond-to(mobile) {
+      background-color: inherit;
+    }
+
     .row {
       height: 130px;
       display: flex;
       justify-content: space-between;
       align-items: center;
 
+      @include respond-to(tablet) {
+        height: 80px;
+      }
+
+      @include respond-to(mobile) {
+         position: fixed;
+         top: 0;
+         left: 0;
+         width: 100%;
+         background-color: inherit;
+         z-index: 1000;
+         padding: 0 20px;
+         box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      }
+
       .logo {
         img {
           width: 80px;
+          @include respond-to(mobile) {
+            width: 60px;
+          }
         }
       }
 
       .desktopNav {
+        @include respond-to(tablet) {
+          display: none;
+        }
+
         .navList {
           display: flex;
           gap: 30px;
@@ -30,7 +58,7 @@
 
             a {
               text-transform: uppercase;
-              color: black;
+              color: $bg-darker;
 
               &:hover {
                 text-decoration: underline;
@@ -42,80 +70,8 @@
 
       .menuToggle {
         display: none;
-      }
-    }
-  }
-}
 
-.mobileMenuOverlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgb(0, 0, 0);
-  z-index: 1000;
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-
-  transform: translateY(-100%);
-  transition: transform 0.4s ease-out, opacity 0.4s ease-out;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.mobileMenuOverlay.is-active {
-  transform: translateY(0);
-  opacity: 1;
-  pointer-events: all;
-}
-
-.mobileMenuOverlay .closeButton {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background: none;
-  border: none;
-  color: white;
-  font-size: 50px;
-  cursor: pointer;
-}
-
-.mobileMenuOverlay .mobileNav {
-  margin-top: 150px;
-  text-align: center;
-  width: 100%;
-
-  .mobileNavList {
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
-
-    .navItem {
-      a {
-        color: white;
-        font-size: 23px;
-        text-transform: uppercase;
-        font-family: "bold";
-        &:hover {
-          opacity: 0.8;
-        }
-      }
-    }
-  }
-}
-
-@media (max-width: 768px) {
-  .header {
-    .container {
-      .row {
-        height: 80px;
-        .desktopNav {
-          display: none;
-        }
-
-        .menuToggle {
+        @include respond-to(tablet) {
           display: flex;
           justify-content: center;
           align-items: center;
@@ -124,8 +80,9 @@
           border: none;
           border-radius: 8px;
           cursor: pointer;
-          color: white;
+          color: $text-light;
           z-index: 9999;
+          
           .hamburgerIcon {
             display: flex;
             flex-direction: column;
@@ -153,7 +110,7 @@
           }
         }
 
-        .menuToggle.is-active .hamburgerIcon {
+        &.is-active .hamburgerIcon {
           .line {
             width: 100%;
             margin: 0;
@@ -170,6 +127,65 @@
 
           .bottom {
             transform: translateY(-8px) rotate(-45deg);
+          }
+        }
+      }
+    }
+  }
+}
+
+.mobileMenuOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: $bg-darker;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+
+  transform: translateY(-100%);
+  transition: transform 0.4s ease-out, opacity 0.4s ease-out;
+  opacity: 0;
+  pointer-events: none;
+
+  &.is-active {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .closeButton {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: $text-light;
+    font-size: 50px;
+    cursor: pointer;
+  }
+
+  .mobileNav {
+    margin-top: 150px;
+    text-align: center;
+    width: 100%;
+
+    .mobileNavList {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+
+      .navItem {
+        a {
+          color: $text-light;
+          font-size: 23px;
+          text-transform: uppercase;
+          font-family: "bold";
+          &:hover {
+            opacity: 0.8;
           }
         }
       }

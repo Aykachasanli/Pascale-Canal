@@ -1,4 +1,4 @@
-import type { FC, ReactNode } from "react";
+import { forwardRef, type ReactNode } from "react";
 
 interface ICustomSection {
   children: ReactNode;
@@ -7,12 +7,14 @@ interface ICustomSection {
 }
 
 
-const CustomSection: FC<ICustomSection> = ({ children, className, hideBg }) => {
+const CustomSection = forwardRef<HTMLElement, ICustomSection>(({ children, className, hideBg }, ref) => {
   return (
-    <section className={`section ${className || ""} ${hideBg ? "hide" : ""}`}>
+    <section ref={ref} className={`section ${className || ""} ${hideBg ? "hide" : ""}`}>
       <div className="row">{children}</div>
     </section>
   );
-};
+});
+
+CustomSection.displayName = "CustomSection";
 
 export default CustomSection;

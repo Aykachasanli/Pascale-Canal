@@ -1,10 +1,101 @@
+@use "../../variables" as *;
+
+.step-1.step-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+
+  .loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+
+    .loading-spinner {
+      width: 50px;
+      height: 50px;
+      border: 3px solid $bg-input-border;
+      border-top: 3px solid $color-accent;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    p {
+      color: $text-muted;
+      font-size: 1rem;
+      opacity: 0.8;
+    }
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+.step-1.images-loading {
+  position: relative;
+  
+  .step-1-grid,
+  .step-1-footer {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+.step-1 {
+  position: relative;
+
+  .loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $bg-input;
+    border-radius: 10px;
+    z-index: 10;
+
+    .loading-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+
+      .loading-spinner {
+        width: 50px;
+        height: 50px;
+        border: 3px solid $bg-input-border;
+        border-top: 3px solid $color-accent;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      p {
+        color: $text-muted;
+        font-size: 1rem;
+        opacity: 0.8;
+      }
+    }
+  }
+}
+
 .step-1 {
   display: flex;
   flex-direction: column;
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   padding: 40px;
-  background-color: #4d4d4d;
+  background-color: $bg-input;
   border-radius: 10px;
   font-family: "regular";
   .step-1-grid {
@@ -12,7 +103,7 @@
     grid-template-columns: 2fr 2fr;
     gap: 50px;
     padding-bottom: 30px;
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid $bg-input-border;
 
     @media (max-width: 768px) {
       grid-template-columns: 1fr;
@@ -44,7 +135,7 @@
         font-weight: bold;
 
         .price {
-          color: #ede18b;
+          color: $color-accent;
           margin-top: 10px;
         }
       }
@@ -56,7 +147,7 @@
   .right-side {
     h3 {
       font-size: 1.2rem;
-      color: #e0e0e0;
+      color: $text-muted;
       margin-bottom: 20px;
     }
 
@@ -66,7 +157,7 @@
       gap: 8px;
 
       .related-artwork-item {
-        background-color: #333;
+        background-color: $bg-input-border;
         border-radius: 8px;
         overflow: hidden;
         text-align: center;
@@ -99,25 +190,12 @@
       }
 
       .related-artwork-item.selected {
-        // border-color: #0070f3;
-        background: #ede18b69;
+
+        background: rgba($color-accent, 0.4);
       }
     }
 
-    // .view-all-btn {
-    //   width: 100%;
-    //   padding: 12px;
-    //   background: none;
-    //   border: 1px solid #ff5722;
-    //   color: #ff5722;
-    //   border-radius: 5px;
-    //   font-weight: bold;
-    //   transition: background-color 0.2s;
 
-    //   &:hover {
-    //     background-color: rgba(255, 87, 34, 0.1);
-    //   }
-    // }
   }
 
   .step-1-footer {
@@ -125,13 +203,13 @@
     text-align: right;
 
     .suivante-btn {
-      background-color: #fff083;
-      color: black;
+      background-color: $color-accent;
+      color: $bg-darker;
       padding: 12px 25px;
       font-size: 1rem;
       font-weight: bold;
       &:hover {
-      background-color: #cec476cb;
+      background-color: $color-accent-hover;
       }
     }
   }

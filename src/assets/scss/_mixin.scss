@@ -1,3 +1,6 @@
+@forward "./variables";
+@use "./variables" as *;
+
 @mixin primary-btn {
   padding: 10px 25px;
   border: none;
@@ -5,14 +8,14 @@
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.2s;
-  background-color: #ffc107; 
-  color: #2a2a2a; 
+  background-color: $color-accent; 
+  color: $bg-dark; 
 
   &:hover {
-    background-color: #e6b600; 
+    background-color: $color-accent-hover; 
   }
   &:disabled {
-    background-color: #cc9900; 
+    background-color: darken($color-accent, 20%); 
     cursor: not-allowed;
   }
 }
@@ -25,7 +28,7 @@
   cursor: pointer;
   transition: background-color 0.2s;
   background-color: #555555; 
-  color: #f0f0f0;
+  color: $text-main;
 
   &:hover {
     background-color: #666666; 
@@ -33,7 +36,7 @@
 }
 
 @mixin modal-content-block {
-  background-color: #3c3c3c; 
+  background-color: $bg-surface; 
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
@@ -41,17 +44,59 @@
 @mixin form-input {
   width: 100%;
   padding: 12px 15px;
-  border: 1px solid #555555;
+  border: 1px solid $bg-input-border;
   border-radius: 6px;
-  background-color: #4d4d4d; 
-  color: #f0f0f0; 
+  background-color: $bg-input; 
+  color: $text-main; 
   font-size: 1rem;
 
   &::placeholder {
-    color: #d9d9d9;
+    color: $text-gray-light;
   }
   &:focus {
-    border-color: #ffc107;
+    border-color: $color-accent;
     outline: none;
+  }
+}
+
+@mixin style-text-main {
+  color: $text-main;
+}
+
+@mixin style-text-muted {
+  color: $text-muted;
+}
+
+@mixin style-text-accent {
+  color: $color-accent;
+}
+
+@mixin style-bg-main {
+  background-color: $bg-main;
+}
+
+@mixin style-bg-dark {
+  background-color: $bg-dark;
+}
+
+@mixin style-border-accent {
+  border-color: $color-accent;
+}
+
+@mixin respond-to($breakpoint) {
+  @if $breakpoint == small-mobile {
+    @media (max-width: $bps-small-mobile) { @content; }
+  }
+  @else if $breakpoint == mobile {
+    @media (max-width: $bps-mobile) { @content; }
+  }
+  @else if $breakpoint == tablet {
+    @media (max-width: $bps-tablet) { @content; }
+  }
+  @else if $breakpoint == desktop {
+    @media (max-width: $bps-desktop) { @content; }
+  }
+  @else if $breakpoint == large-desktop {
+    @media (max-width: $bps-large-desktop) { @content; }
   }
 }

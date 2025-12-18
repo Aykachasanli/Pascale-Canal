@@ -1,3 +1,5 @@
+@use "../mixin" as *;
+
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -5,22 +7,35 @@
   width: 100%;
   height: 100%;
 
-  background-color: rgba(0, 0, 0, 0.75);
+  background-color: rgba($bg-darker, 0.75);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
 
   .buy-artwork-modal {
-    background: #1e1e1e;
-    color: #e0e0e0;
+    background: $bg-surface;
+    color: $text-muted;
     border-radius: 20px;
     width: 90%;
     max-width: 80%;
     max-height: 90vh;
-    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
     padding: 40px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+
+    @include respond-to(tablet) {
+      width: 95%;
+      max-width: 95%;
+      padding: 20px;
+    }
+
+    .modal-content {
+      flex: 1;
+      overflow-y: auto;
+      min-height: 0;
+    }
 
     .modal-header {
       position: relative;
@@ -30,6 +45,10 @@
         font-size: 1.9rem;
         margin-bottom: 5px;
         font-family: "bold";
+
+        @include respond-to(mobile) {
+          font-size: 1.5rem;
+        }
       }
       p {
         opacity: 0.8;
@@ -44,7 +63,7 @@
         right: 0;
         background: none;
         border: none;
-        color: #e0e0e0;
+        color: $text-muted;
         font-size: 2rem;
         cursor: pointer;
         opacity: 0.6;
@@ -60,7 +79,7 @@
       justify-content: space-between;
       align-items: center;
       padding: 20px 0;
-      border-bottom: 1px solid #333;
+      border-bottom: 1px solid $bg-input-border;
       margin-bottom: 20px;
 
       .step-item {
@@ -71,46 +90,32 @@
         position: relative;
         opacity: 0.5;
 
-        &::after {
-          content: "";
-          position: absolute;
-          top: 10px;
-          left: 50%;
-          width: 100%;
-          height: 2px;
-          background: #333;
-          z-index: 1;
-          transform: translateX(50%);
-        }
-        &:last-child::after {
-          display: none;
-        }
-
         &.active,
         &.completed {
           opacity: 1;
         }
 
         &.completed .step-number {
-          border: 1.5px solid #e2d680;
+          border: 1.5px solid $color-accent;
         }
 
         &.active .step-number {
-          border: 1.5px solid #e2d680;
+          border: 1.5px solid $color-accent;
         }
 
         .step-number {
           width: 35px;
           height: 35px;
           border-radius: 50%;
-          background: #444;
-          color: #fff;
+          background: $bg-surface;
+          color: $text-light;
           display: flex;
           justify-content: center;
           align-items: center;
           font-size: 1rem;
           z-index: 2;
           margin-bottom: 5px;
+          border: 2px solid $bg-input-border;
         }
 
         .step-label {
@@ -119,6 +124,10 @@
           visibility: hidden;
           opacity: 0;
           transition: opacity 0.3s, visibility 0.3s;
+          
+          @include respond-to(mobile) {
+            display: none;
+          }
         }
       }
 
@@ -126,8 +135,13 @@
         .step-label {
           visibility: visible;
           opacity: 1;
-          color: #e2d680;
+          color: $color-accent;
           font-family: "regular";
+          
+          @include respond-to(mobile) {
+            display: block; 
+            font-size: 0.8rem;
+          }
         }
       }
     }
@@ -147,8 +161,8 @@
       padding-top: 20px;
 
       .back-btn {
-        background-color: #333;
-        color: white;
+        background-color: $bg-input-border;
+        color: $text-light;
         font-size: 0.9rem;
 
         &:hover {
@@ -158,12 +172,12 @@
 
       .next-btn,
       .submit-btn {
-        background-color: #fff083;
+        background-color: $color-accent;
 
-        color: black;
+        color: $bg-darker;
         font-size: 0.9rem;
         &:hover {
-          background-color: #cec476cb;
+          background-color: $color-accent-hover;
 
         }
       }

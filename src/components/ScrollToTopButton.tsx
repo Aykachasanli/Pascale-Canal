@@ -1,17 +1,7 @@
 import React, { useState } from "react";
-// SCSS faylını import etməyi unutmayın
-
-
-/**
- * Axtarış sahəsi və səhifənin yuxarısına qayıtmaq üçün düyməni ehtiva edən
- * bütün səhifələrdə görünəcək sabit komponent.
- */
 const SearchAndScrollFixed: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
-  /**
-   * Səhifəni yuxarıya (0, 0 koordinatına) hamar şəkildə atır.
-   */
   const handleBackToTop = () => {
     window.scrollTo({
       top: 0,
@@ -19,15 +9,10 @@ const SearchAndScrollFixed: React.FC = () => {
     });
   };
 
-  /**
-   * Axtarış funksionallığını yerinə yetirir (əlavə olaraq implementasiya edilməlidir).
-   */
   const handleSearch = () => {
-    // Axtarış məntiqini bura əlavə edin
-    console.log("Axtarış edilir:", searchTerm);
+    console.log("Searching for:", searchTerm);
   };
 
-  // Input sahəsində 'Enter' basıldığında axtarış etmək üçün
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       handleSearch();
@@ -37,13 +22,10 @@ const SearchAndScrollFixed: React.FC = () => {
   return (
     <div className="fixed-search-bar">
       <div className="content-wrapper">
-        
-        {/* Sol tərəfdəki loqo/simvol */}
         <div className="logo">
           PK
         </div>
 
-        {/* Axtarış Sahəsi */}
         <div className="search-input-container">
           <input
             type="text"
@@ -54,7 +36,6 @@ const SearchAndScrollFixed: React.FC = () => {
           />
         </div>
 
-        {/* Back to top düyməsi */}
         <button
           onClick={handleBackToTop}
           className="back-to-top-button"

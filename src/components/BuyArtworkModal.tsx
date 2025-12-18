@@ -42,7 +42,7 @@ const BuyArtworkModal: React.FC = () => {
     { id: 1, label: "Artwork" },
     { id: 2, label: "Summary" },
     { id: 3, label: "Coordinates" },
-    { id: 4, label: "Message" },
+    { id: 4, label: "Success" },
   ];
 
   const isNavigationVisible = currentStep > 1 && currentStep < 4;
@@ -85,12 +85,14 @@ const BuyArtworkModal: React.FC = () => {
             >
               ← Back
             </button>
-            <button
-              className="next-btn"
-              onClick={() => dispatch(goToNextStep())}
-            >
-              Next →
-            </button>
+            {currentStep !== 3 && (
+              <button
+                className="next-btn"
+                onClick={() => dispatch(goToNextStep())}
+              >
+                Next →
+              </button>
+            )}
           </div>
         )}
       </div>

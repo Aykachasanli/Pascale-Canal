@@ -1,11 +1,17 @@
+@use "../mixin" as *;
+
 .footer {
-  background: #222222;
-  color: #fff;
+  background: $bg-main;
+  color: $text-light;
   font-family: "Inter", sans-serif;
   position: relative;
   min-height: 500px;
   height: auto;
   overflow: hidden;
+
+  &.footer--with-border {
+    border-top: 4px dotted $text-light;
+  }
 
   .container {
     .row {
@@ -14,35 +20,31 @@
 
       .top {
         display: flex;
-        // Bütün kontentin yan-yana olması üçün bu xüsusiyyətləri saxlayırıq:
         justify-content: space-between;
-        flex-wrap: wrap; // Kiçik ekranlarda alt-alta düşməsini təmin edir
-        gap: 5rem; // Yan-yana olan elementlər arasındakı boşluğu azaldırıq
+        flex-wrap: wrap; 
+        gap: 5rem; 
 
-        @media (max-width: 1024px) {
+        @include respond-to(desktop) {
           gap: 2rem;
           flex-wrap: nowrap;
         }
-         @media (max-width: 768px) {
-         flex-direction: column;
+         @include respond-to(tablet) {
+           flex-direction: column;
+           gap: 3rem;
         }
       }
 
-      /* SOL TƏRƏF: Logo, Copyright və Author */
       .left {
-        // İndi yan-yana durması üçün tam eni deyil, müəyyən bir hissəni tutur
-        // width: 30%;
-        // min-width: 250px;
+      
         font-family: "regular";
 
-        @media (max-width: 1024px) {
-          // Tablet və kiçik ekranlarda 100% enə qayıdır
-          // width: 100%;
+        @include respond-to(desktop) {
           margin-bottom: 2rem;
         }
 
-        @media (max-width: 768px) {
-          // min-width: 100%;
+        @include respond-to(tablet) {
+           width: 100%;
+           margin-bottom: 2rem;
         }
 
         .logo {
@@ -53,112 +55,111 @@
         p {
           margin: 0.3rem 0;
           font-size: 0.95rem;
-          color: white;
+          color: $text-light;
         }
 
         .author {
           color: rgb(116, 122, 132);
 
           span a {
-            color: #f3da47;
+            color: $color-accent;
             font-weight: 600;
             text-decoration: none;
           }
         }
       }
 
-      /* SAĞ TƏRƏF: Sütunlar konteyneri */
+
       .columns-container {
         display: flex;
         gap: 2rem 5rem;
         flex-wrap: wrap;
 
-        // Yan-yana durması üçün qalan hissəni tutur
         width: 60%;
         justify-content: space-evenly;
 
-        @media (max-width: 1024px) {
-          // Tablet və kiçik ekranlarda 100% enə qayıdır
+        @include respond-to(desktop) {
           width: 100%;
           justify-content: space-between;
           gap: 2rem 3rem;
         }
 
-        @media (max-width: 768px) {
-          // gap: 2rem 2rem;
-          // justify-content: space-between;
+        @include respond-to(tablet) {
+           width: 100%;
+           justify-content: space-between;
+           gap: 2rem;
         }
 
-        @media (max-width: 480px) {
-          flex-direction: column;
-          gap: 2rem;
-        }
+      @include respond-to(small-mobile) {
+        flex-direction: column;
+        gap: 2rem;
+      }
+    }
+
+
+    .col {
+      min-width: 150px;
+
+      @include respond-to(tablet) {
+        min-width: auto;
       }
 
-      /* SÜTUN STİLLƏRİ */
-      .col {
-        min-width: 150px;
+      @include respond-to(small-mobile) {
+        min-width: 100%;
+      }
 
-        @media (max-width: 768px) {
-          // min-width: 45%;
-        }
+      .title {
+        color: $color-accent;
+        font-size: 15px;
+        margin-bottom: 1rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        font-family: "bold";
+      }
 
-        @media (max-width: 480px) {
-          min-width: 100%;
-        }
+      .footerList {
+        list-style: none;
+        padding: 0;
+        margin: 0;
 
-        .title {
-          color: #f3da47;
-          font-size: 15px;
-          margin-bottom: 1rem;
-          font-weight: 500;
-          text-transform: uppercase;
-          font-family: "bold";
-        }
+        .footerItem {
+          margin-bottom: 0.6rem;
+          font-size: 1rem;
+          line-height: 25px;
+          font-family: "regular";
 
-        .footerList {
-          list-style: none;
-          padding: 0;
-          margin: 0;
+          a {
+            color: $text-muted;
+            text-decoration: none;
+            transition: 0.3s;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
 
-          .footerItem {
-            margin-bottom: 0.6rem;
-            font-size: 1rem;
-            line-height: 25px;
-            font-family: "regular";
+            .icon {
+              margin-right: 10px;
+              color: $text-muted;
+            }
 
-            a {
-              color: #cfcfcf;
-              text-decoration: none;
-              transition: 0.3s;
-              cursor: pointer;
-              display: flex;
-              align-items: center;
-
+            &:hover {
+              color: $color-accent;
               .icon {
-                margin-right: 10px;
-                color: #cfcfcf;
-              }
-
-              &:hover {
-                color: #f3da47;
-                .icon {
-                  color: #f3da47;
-                }
+                color: $color-accent;
               }
             }
           }
+        }
 
-          .social-item a {
-            display: flex;
-            align-items: center;
-          }
+        .social-item a {
+          display: flex;
+          align-items: center;
         }
       }
     }
   }
+}
 
-  /* ƏN ALT HİSSƏ: CHASN yazısı - Dəyişmədi */
+
   .bottom {
     position: absolute;
     bottom: 0;
@@ -166,15 +167,14 @@
     width: 100%;
     overflow: hidden;
 
-    @media (max-width: 768px) {
-      position: absolute;
-      left: auto;
-      right: 0;
-      width: auto;
-      height: 100%;
-      display: flex;
-      justify-content: flex-end;
-      align-items: flex-end;
+    @include respond-to(tablet) {
+        position: relative;
+        left: auto;
+        right: auto;
+        width: 100%;
+        height: auto;
+        display: block;
+        margin-top: 50px;
     }
 
     .title {
@@ -186,30 +186,31 @@
       overflow: hidden;
       white-space: nowrap;
 
-      // Desktop stilləri
+
       font-size: 206px;
       margin-bottom: 30px;
       transform: scale(1.3) translateY(20%);
 
-      @media (max-width: 1024px) {
+      @include respond-to(desktop) {
         font-size: 160px;
         transform: scale(1.2) translateY(25%);
       }
 
-      @media (max-width: 768px) {
-        font-size: 100px;
-        writing-mode: vertical-rl;
-        height: 100%;
+      @include respond-to(tablet) {
+        font-size: 120px;
+        writing-mode: horizontal-tb;
+        height: auto;
         text-orientation: mixed;
-        transform: none;
+        transform: scale(1.2) translateY(20%);
         margin-bottom: 0;
         padding: 0;
-        line-height: 1.1;
+        line-height: 1;
         letter-spacing: initial;
-        margin-right: 20px;
+        margin-right: 0;
+        text-align: center;
       }
 
-      @media (max-width: 480px) {
+      @include respond-to(small-mobile) {
         font-size: 80px;
         margin-right: 10px;
       }

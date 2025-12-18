@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import logo from "../assets/images/logo-reversed.avif";
 import Hamburger from "hamburger-react";
-// import CustomSection from "./CustomSection";
+
 
 const navLinks = [
   { to: "/", label: "Paintings" },
@@ -16,14 +16,12 @@ const Header = () => {
   const path = useLocation();
   const isBlackBg = bgColorsForPath.includes(path?.pathname);
   const [isOpen, setIsOpen] = useState(false);
-  // Mobil menunun açıq/qapalı vəziyyətini idarə etmək üçün state
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // Menyunun vəziyyətini dəyişdirən funksiya
   const toggleMenu = () => {
     const newState = !isMenuOpen;
     setIsMenuOpen(newState);
-    // Menyu açılanda body-də scrollu qadağan etmək
+    setIsMenuOpen(newState);
     document.body.style.overflow = newState ? "hidden" : "unset";
   };
 
@@ -87,6 +85,9 @@ const Header = () => {
       </div>
 
       <div className={`mobileMenuOverlay ${isMenuOpen ? "is-active" : ""}`}>
+        <button className="closeButton" onClick={toggleMenu}>
+          &times;
+        </button>
      
         <nav className="mobileNav">{renderNavLinks(true)}</nav>
       </div>

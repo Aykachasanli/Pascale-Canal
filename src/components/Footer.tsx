@@ -1,12 +1,17 @@
 import React from "react";
-import { Link } from "react-router-dom"; 
+import { Link, useLocation } from "react-router-dom"; 
 import { FaInstagram } from "react-icons/fa";
 import { FaLinkedinIn } from "react-icons/fa6"; 
 import logo from "../assets/images/logo-reversed.avif";
 
+const bgColorsForPath = ["/contact", "/personal", "/who"];
+
 const Footer: React.FC = () => {
+  const path = useLocation();
+  const isBlackBg = bgColorsForPath.includes(path?.pathname);
+
   return (
-    <footer className="footer">
+    <footer className={`footer ${isBlackBg ? "footer--with-border" : ""}`}>
       <div className="container">
         <div className="row">
           <div className="top">

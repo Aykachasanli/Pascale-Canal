@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { goToNextStep } from "../../store/modalSlice";
 
@@ -8,18 +8,9 @@ const Step2: React.FC = () => {
   const product = useAppSelector((state) => state.modal.product);
   const selectedFormat = product?.selectedFormat;
 
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    address: "",
-    city: "",
-    country: "",
-  });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+
+
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,7 +22,7 @@ const Step2: React.FC = () => {
     (state) => state.modal.selectedRelatedArtworks
   );
 
-  // Create full cart list:
+
   const cartItems = [...(mainProduct ? [mainProduct] : []), ...relatedProducts];
 
   if (!product || !selectedFormat) return null;
@@ -45,7 +36,7 @@ const Step2: React.FC = () => {
           <div className="total-price-block">
             <p>Total price</p>
             <span className="price-value">
-              {cartItems.reduce((total, item) => total + item.price, 0).toFixed(2)} €
+              {cartItems.reduce((total, item) => total + item.price, 0).toFixed(2)} $
             </span>
           </div>
 
@@ -56,7 +47,7 @@ const Step2: React.FC = () => {
                 <img src={item.imageUrl} />
                 <div className="info">
                   <p>{item.name}</p>
-                <p>{item.price} €</p>
+                <p>{item.price} $</p>
                 </div>
               </div>
             ))}

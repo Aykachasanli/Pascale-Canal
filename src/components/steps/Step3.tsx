@@ -1,44 +1,46 @@
-import React from "react";
+import React, { useState } from "react";
 import { useAppDispatch } from "../../store/hooks";
-import { goToNextStep, goToPreviousStep } from "../../store/modalSlice";
+import { goToNextStep } from "../../store/modalSlice";
 import { object, string } from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { StepEmail } from "../Service/ServiceStep3";
 import type { IStepFormValues } from "../Models/Step3Models";
+import { CircleOverlay } from "../animation/CircleOverlay";
 
 const Step3_Coordinates: React.FC = () => {
+  const [loading, setLoading] = useState(false)
   const dispatch = useAppDispatch();
   const buyChame = object({
     firsName: string()
       .trim()
-      .required("Ad mütləq daxil edilməlidir")
+      .required("Name is required")
       .matches(
         /^[A-Za-zƏəÖöÜüĞğÇçİıŞş\s'-]+$/,
-        "Ad yalnız hərflərdən ibarət olmalıdır"
+        "Name must contain only letters"
       )
-      .min(2, "Ad ən azı 2 hərfdən ibarət olmalıdır"),
+      .min(2, "Name must be at least 2 characters"),
     surname: string()
       .trim()
-      .required("Soyad mütləq daxil edilməlidir")
+      .required("Surname is required")
       .matches(
         /^[A-Za-zƏəÖöÜüĞğÇçİıŞş\s'-]+$/,
-        "Soyad yalnız hərflərdən ibarət olmalıdır"
+        "Surname must contain only letters"
       )
-      .min(2, "Soyad ən azı 2 hərfdən ibarət olmalıdır"),
+      .min(2, "Surname must be at least 2 characters"),
     email: string()
       .trim()
-      .required("Email mütləq daxil edilməlidir")
+      .required("Email is required")
       .matches(
         /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-        "Zəhmət olmasa düzgün email daxil edin"
+        "Please enter a valid email"
       ),
     phone: string()
       .trim()
-      .required("Telefon nömrəsi mütləq daxil edilməlidir")
+      .required("Phone number is required")
       .matches(
         /^\+?[0-9]{7,15}$/,
-        "Zəhmət olmasa düzgün telefon nömrəsi daxil edin"
+        "Please enter a valid phone number"
       ),
   });
 
@@ -46,48 +48,62 @@ const Step3_Coordinates: React.FC = () => {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm<IStepFormValues>({
     resolver: yupResolver(buyChame),
     mode: "all",
   });
 
+  const [globalError, setGlobalError] = useState<string | null>(null);
+
+  const onError = () => {
+    setGlobalError("Please fill in the form");
+  };
+
   const onSubmit = async (data: IStepFormValues) => {
+    setLoading(true);
+    setGlobalError(null);
     try {
       await StepEmail(data);
       dispatch(goToNextStep());
       reset();
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
+  if (loading) {
+    return <CircleOverlay />;
+  }
+
   return (
     <div className="step-content step-3-coordinates">
-      <h3>Vos coordonnées</h3>
-      <p>Zəhmət olmasa, əlaqə məlumatlarınızı daxil edin.</p>
+      <h3>Your contact information</h3>
+      <p>Please enter your contact information.</p>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="coordinates-form">
+      <form onSubmit={handleSubmit(onSubmit, onError)} className="coordinates-form">
         <div className="form-group-inline">
-          {/* Ad Inputu */}
+
           <div className="input-container">
             <input
               type="text"
-              placeholder="Prénom*"
+              placeholder="Name*"
               className={errors.firsName ? "input-error" : ""}
               {...register("firsName")}
             />
-            {/* Səhv varsa mesaj çıxır */}
+
             {errors.firsName && (
-              <p className="error-message">{errors.firsName.message}</p>
+              <span className="error-message">{errors.firsName.message}</span>
             )}
           </div>
 
-          {/* Soyad Inputu */}
+
           <div className="input-container">
             <input
               type="text"
-              placeholder="Nom*"
+              placeholder="Surname*"
               className={errors.surname ? "input-error" : ""}
               {...register("surname")}
             />
@@ -97,7 +113,7 @@ const Step3_Coordinates: React.FC = () => {
           </div>
         </div>
 
-        {/* Email Inputu */}
+
         <div className="form-group">
           <input
             type="email"
@@ -110,11 +126,11 @@ const Step3_Coordinates: React.FC = () => {
           )}
         </div>
 
-        {/* Telefon Inputu */}
+
         <div className="form-group">
           <input
             type="tel"
-            placeholder="Téléphone*"
+            placeholder="Telephone*"
             className={errors.phone ? "input-error" : ""}
             {...register("phone")}
           />
@@ -122,24 +138,23 @@ const Step3_Coordinates: React.FC = () => {
             <span className="error-message">{errors.phone.message}</span>
           )}
         </div>
+        
+        {globalError && (
+          <div style={{ color: "#ff6b6b", textAlign: "center", marginBottom: "10px" }}>
+            {globalError}
+          </div>
+        )}
+
         <div className="form-navigation-footer">
-          <button
-            type="button"
-            className="precedent-btn"
-            onClick={() => dispatch(goToPreviousStep())}
-          >
-            Précédent
-          </button>
+
           <button
             type="submit"
             className="suivant-btn"
-            disabled={!isValid}
             style={{
-              opacity: !isValid ? 0.5 : 1,
-              cursor: !isValid ? "not-allowed" : "pointer",
+              cursor: "pointer",
             }}
           >
-            Suivant
+            Ok
           </button>
         </div>
       </form>

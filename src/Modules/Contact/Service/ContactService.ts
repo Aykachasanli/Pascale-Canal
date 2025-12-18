@@ -1,12 +1,12 @@
 import emailjs from "emailjs-com";
-import type { IContactFormValues } from "../Models/IContactForm";
+import type { IContactFormValues } from "../Model/IContactForm";
 export const contactEmail = (data: IContactFormValues) => {
   return emailjs.send(
     "service_h6tlr3i",
     "template_ovadtjw",
     {
       firsName: data.firsName,
-      name: data.name,
+      name: data.surname,
       email: data.email,
       phone: data.phone,
     },

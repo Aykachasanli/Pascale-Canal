@@ -1,15 +1,206 @@
-.who-am-i-page {
-    height: 100vh;
-    background-color: #222222;
+@use "../mixin" as *;
+
+.who-am-a-page {
+    min-height: 100vh;
+    height: auto;
+    overflow-y: auto;
+    background-color: $bg-main;
   .container {
     .row {
+       position: relative;
+       display: grid;
+       grid-template-columns: 1fr 1fr;
+       grid-template-rows: auto;
+       row-gap: 15rem;
+       height: auto;
+       padding-bottom: 5rem; 
+
        .title{
-        color: white;
+        color: $text-light;
         font-size: 92px;
         font-family: "bold";
         margin-top: 100px;
-     
+        
+        grid-column: 1;
+        grid-row: 1;
+        justify-self: start;
+        z-index: 1;
        } 
+       
+       .image-wrapper {
+          position: relative; 
+          
+          grid-column: 2;
+          grid-row: 2;
+          
+          justify-self: end;
+          margin-right: 9rem;
+          z-index: 1;
+          
+          top: auto;
+          right: auto;
+          bottom: auto;
+
+          
+          .my-image {
+             border-radius: 10px;
+             width: 400px;
+             height: 400px;
+             object-fit: cover;
+             filter: grayscale(100%);
+             display: block;
+          }
+       } 
+
+       .second-title {
+          position: relative;
+          
+          grid-column: 1;
+          grid-row: 3;
+          justify-self: start;
+          
+          width: 100%;
+          color: $text-light;
+          font-size: 34px;
+          line-height: 1.5;
+          font-family: "regular";
+          z-index: 1;
+          
+       }
+
+       .third-title {
+          grid-column: 2;
+          grid-row: 4;
+          justify-self: end;
+          width: 100%;
+          text-align: right;
+          color: $text-light;
+          font-size: 34px;
+          line-height: 1.5;
+          font-family: "regular";
+          z-index: 1;
+       }
+
+       .fourth-title {
+          grid-column: 1;
+          grid-row: 5;
+          justify-self: start;
+          width: 100%;
+          color: $text-light;
+          font-size: 34px;
+          line-height: 1.5;
+          font-family: "regular";
+          z-index: 1;
+       }
+
+       .fifth-title {
+          grid-column: 2;
+          grid-row: 6;
+          justify-self: end;
+          width: 100%;
+          text-align: right;
+          color: $text-light;
+          font-size: 34px;
+          line-height: 1.5;
+          font-family: "regular";
+          z-index: 1;
+       }
+
+       .sixth-title {
+          grid-column: 1;
+          grid-row: 7;
+          justify-self: start;
+          width: 100%;
+          color: $text-light;
+          font-size: 34px;
+          line-height: 1.5;
+          font-family: "regular";
+          z-index: 1;
+       }
+      @media (max-width: 1024px) {
+        row-gap: 10rem;
+        
+        .title {
+          font-size: 70px;
+          margin-top: 150px;
+        }
+
+        .image-wrapper {
+          margin-right: 5rem;
+          
+          .my-image {
+            width: 350px;
+            height: 350px;
+          }
+        }
+
+        .second-title, .third-title, .fourth-title, .fifth-title, .sixth-title {
+          font-size: 28px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+        row-gap: 5rem;
+        padding-bottom: 3rem;
+
+        .title {
+          grid-column: 1 / -1;
+          font-size: 48px;
+          margin-top: 150px;
+          justify-self: center;
+          text-align: center;
+        }
+
+        .image-wrapper {
+          grid-column: 1 / -1;
+          grid-row: 2;
+          margin-right: 0;
+          justify-self: center;
+          margin-bottom: 2rem;
+          
+          .my-image {
+            width: 100%;
+            max-width: 350px;
+            height: auto;
+          }
+        }
+
+        .second-title {
+          grid-column: 1 / -1;
+          grid-row: auto;
+          font-size: 20px;
+          text-align: left;
+        }
+
+        .third-title {
+          grid-column: 1 / -1;
+          grid-row: auto;
+          font-size: 20px;
+          text-align: left;
+        }
+
+        .fourth-title {
+          grid-column: 1 / -1;
+          grid-row: auto;
+          font-size: 20px;
+          text-align: left;
+        }
+
+        .fifth-title {
+          grid-column: 1 / -1;
+          grid-row: auto;
+          font-size: 20px;
+          text-align: left;
+        }
+
+        .sixth-title {
+          grid-column: 1 / -1;
+          grid-row: auto;
+          font-size: 20px;
+          text-align: left;
+        }
+      }
     }
   }
 }

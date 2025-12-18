@@ -2,14 +2,14 @@
 @use "./mixin";
 @use "./base";
 
-// pages
+
 @use "./pages/home";
 @use "./pages/details";
-@use "./pages//contact";
-@use "./pages//personal";
-@use "./pages//who";
+@use "./pages/contact";
+@use "./pages/personal";
+@use "./pages/who";
 
-// components
+
 @use "./components/header";
 @use "./components/mouse";
 @use "./components/customSection";
@@ -21,3 +21,4 @@
 @use "./components/steps/step3";
 @use "./components/steps/step4";
 @use "./components/steps/step5";
+@use "./components/floatingSearch";

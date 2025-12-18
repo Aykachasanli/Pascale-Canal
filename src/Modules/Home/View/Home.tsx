@@ -1,21 +1,20 @@
 import React, { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { useHomeProvider } from "../Provider/HomeProvider";
 import CustomSection from "../../../components/CustomSection";
 
 const IMAGE_BASE_URL = import.meta.env.VITE_IMAGE_URL;
 
-// ImmortalizeBanner komponenti (Yalnız düymə tıklanabilir)
+
 const ImmortalizeBanner: React.FC = () => {
   const navigate = useNavigate();
 
-  // Yalnız düyməni klikləmək üçün funksiya
   const handleOrderClick = () => {
     navigate("/personal");
   };
 
   return (
-    // Bütün div tıklanabilir deyil
     <div className="immortalize-banner">
       <div className="banner-content">
         <span className="novelty-tag">NOVELTY</span>
@@ -25,7 +24,6 @@ const ImmortalizeBanner: React.FC = () => {
           tailored to your taste.
         </p>
       </div>
-      {/* Yalnız bu düymə tıklanabilir olacaq */}
       <button className="order-button" onClick={handleOrderClick}>
         Order your painting <span className="arrow">→</span>
       </button>
@@ -36,8 +34,12 @@ const ImmortalizeBanner: React.FC = () => {
 const Home: React.FC = () => {
   const { products, loading, error } = useHomeProvider();
   const navigate = useNavigate();
+  
+  const { scrollY } = useScroll();
+  const yTitle = useTransform(scrollY, [0, 500], [0, -600]);
+  const ySubtitle = useTransform(scrollY, [0, 500], [0, -600]); 
+  const rotateBadge = useTransform(scrollY, [0, 500], [-10, 25]); 
 
-  // Məhsul qalereyasını idarə edən və render edən hissə
   const content = useMemo(() => {
     if (loading) {
       return <div className="loading-state">Məhsullar yüklənir...</div>;
@@ -63,7 +65,7 @@ const Home: React.FC = () => {
             />
             <div className="title">
               <h3>{product.name}</h3>
-              <span>{product.price} €</span>
+              <span>{product.price} $</span>
             </div>
           </div>
         ))}
@@ -75,18 +77,43 @@ const Home: React.FC = () => {
     <CustomSection className="home">
       <div className="container">
         <div className="row">
-          {/* 1. BAŞLIQ HİSSƏSİ (KODDA BİRİNCİ) */}
-          <div data-aos="fade-up" className="content">
-            <h1 className="title">
+          <div className="content">
+            <motion.h1 
+              className="title"
+              style={{ y: yTitle }}
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: false }}
+              transition={{ duration: 1, ease: "easeOut" }}
+            >
               Pascale <span>Canal</span>
-              <span className="badge">FRENCH PAINTER</span>
-            </h1>
-            <p className="subtitle">Visit my e-gallery</p>
+              <motion.span 
+                className="badge"
+                style={{ 
+                  display: 'inline-block',
+                  rotate: rotateBadge,
+                }}
+                initial={{ scale: 0.5, opacity: 0 }}
+                whileInView={{ scale: 1, opacity: 1 }}
+                viewport={{ once: false }}
+                transition={{ delay: 0.4, type: "spring", stiffness: 100 }}
+              >
+                FRENCH PAINTER
+              </motion.span>
+            </motion.h1>
+
+            <motion.p 
+              className="subtitle"
+              style={{ y: ySubtitle }}
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: false }}
+              transition={{ duration: 1, delay: 0.2 }}
+            >
+              Visit my e-gallery
+            </motion.p>
           </div>
-
-          {/* 2. MƏHSUL QALEREYASI (KODDA İKİNCİ) */}
           {content}
-
           <div className="col-12">
             <ImmortalizeBanner />
           </div>

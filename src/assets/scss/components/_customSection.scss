@@ -1,8 +1,10 @@
+@use "../mixin" as *;
+
 .section,
 .personal,
 .contact,
 .who-am-a-page {
-  overflow: hidden;
+  overflow-x: hidden;
   position: relative;
   &::before {
     content: "PC";
@@ -34,7 +36,7 @@
     }
   }
   &::before {
-    color: #fafafa50;
+    color: rgba($text-light, 0.05);
     z-index: 0;
   }
 }

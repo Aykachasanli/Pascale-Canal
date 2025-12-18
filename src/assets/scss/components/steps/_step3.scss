@@ -1,17 +1,19 @@
 
+@use "../../variables" as *;
+
 .step-3-coordinates {
   padding: 20px 0;
 
   h3 {
     text-align: center;
-    color: #ffffff;
+    color: $text-light;
     font-size: 1.5em;
     margin-bottom: 5px;
   }
 
   p {
     text-align: center;
-    color: #aaa;
+    color: $text-muted;
     margin-bottom: 30px;
     font-size: 0.9em;
   }
@@ -29,22 +31,22 @@ input[type="email"],
 input[type="tel"] {
   width: 100%;
   padding: 15px;
-  background-color: #333333;
-  border: 1px solid #444444;
-  color: #ffffff;
+  background-color: $bg-input-border;
+  border: 1px solid $bg-input;
+  color: $text-light;
   border-radius: 8px;
   box-sizing: border-box;
   transition: border-color 0.3s, background-color 0.3s;
   font-size: 1em;
 
   &::placeholder {
-    color: #888888;
+    color: $text-gray;
   }
 
   &:focus {
-    border-color: #f7d046; 
+    border-color: $color-accent; 
     outline: none;
-    background-color: #3a3a3a;
+    background-color: $bg-surface;
   }
 }
 
@@ -62,14 +64,14 @@ input[type="tel"] {
 }
 
 .error-message {
-  color: #ff6b6b; 
+  color: $color-error; 
   font-size: 0.85em;
   margin-top: 5px;
   display: block;
 }
 
 .input-error {
-  border-color: #ff6b6b !important;
+  border-color: $color-error !important;
 }
 
 .form-navigation-footer {
@@ -94,20 +96,20 @@ input[type="tel"] {
 
 .precedent-btn {
   background-color: transparent;
-  color: #888;
-  border: 1px solid #555;
+  color: $text-gray;
+  border: 1px solid $bg-input-border;
   
   &:hover {
-    background-color: #444;
-    color: #fff;
+    background-color: $bg-input;
+    color: $text-light;
   }
 }
 
 .suivant-btn {
-  background-color: #f7d046; 
-  color: #1a1a1a;
+  background-color: $color-accent; 
+  color: $bg-darker;
   
   &:hover {
-    background-color: #e6c039;
+    background-color: $color-accent-hover;
   }
 }

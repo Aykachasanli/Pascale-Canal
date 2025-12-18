@@ -1,25 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getAllProducts, getProductById } from "../Modules/Home/Service/HomeService";
-
-export interface Product {
-  _id: string;
-  name: string;
-  details: string;
-  price: number;
-  productImage: string;
-  dimensions?: string;
-  technique?: string;
-  creationDate?: string;
-  author?: string; 
-}
-
-interface HomeState {
-  products: Product[];
-  selectedProduct: Product | null;
-  loading: boolean;
-  error: string | null;
-  
-}
+import type { Product, HomeState } from "../Modules/Home/Model/HomeModel";
 
 const initialState: HomeState = {
   products: [],
@@ -49,7 +30,7 @@ export const fetchProductById = createAsyncThunk<Product, string>(
       const data = await getProductById(id);
       return data;
     } catch (error) {
-      return rejectWithValue("Məhsul tapılmadı!");
+      return rejectWithValue("Product not found!");
     }
   }
 );

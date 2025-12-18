@@ -1,12 +1,14 @@
+@use "../mixin" as *;
+
 .fixed-search-bar {
-    /* Konteynerin Sabit Mövqeyi */
+
     position: fixed;
-    top: 20px; /* Yuxarıdan boşluq */
+    top: 20px;
     left: 50%;
-    transform: translateX(-50%); /* Mərkəzləşdirmə */
+    transform: translateX(-50%);
     z-index: 1000;
     width: 100%;
-    max-width: 900px; /* Maksimum genişlik */
+    max-width: 900px;
     padding: 0 16px; 
     box-sizing: border-box;
 
@@ -15,22 +17,22 @@
         align-items: center;
         justify-content: space-between;
         padding: 8px;
-        border-radius: 50px; /* Tam yumru kənarlar */
-        background-color: #000000; /* Qara fon */
-        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.5); /* Kölgə effekti */
+        border-radius: 50px;
+        background-color: $bg-darker;
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.5);
         gap: 12px;
     }
 
-    /* Loqo/Simvol üçün Stil */
+
     .logo {
-        color: #ffffff;
+        color: $text-light;
         font-size: 32px;
         font-weight: bold;
         padding: 0 12px;
         user-select: none;
     }
 
-    /* Axtarış Sahəsi üçün Stil */
+
     .search-input-container {
         flex-grow: 1;
         
@@ -39,25 +41,25 @@
             padding: 12px 20px;
             border: none;
             border-radius: 50px;
-            background-color: #333333; /* Tünd boz fon */
-            color: #ffffff;
+            background-color: $bg-input-border;
+            color: $text-light;
             font-size: 16px;
             
             &::placeholder {
-                color: #aaaaaa; /* Placeholder rəngi */
+                color: $text-muted;
             }
             
             &:focus {
                 outline: none;
-                box-shadow: 0 0 0 2px #ffc107; /* Fokusda sarı haşiyə */
+                box-shadow: 0 0 0 2px $color-accent;
             }
         }
     }
 
-    /* Back to top düyməsi üçün Stil */
+
     .back-to-top-button {
-        background-color: #ffc107; /* Sarı fon */
-        color: #000000;
+        background-color: $color-accent;
+        color: $bg-darker;
         font-weight: bold;
         padding: 12px 24px;
         border: none;
@@ -67,7 +69,7 @@
         transition: background-color 0.3s ease;
         
         &:hover {
-            background-color: #ffaa00; /* Hover rəngi */
+            background-color: $color-accent-hover;
         }
     }
 }

@@ -1,42 +1,21 @@
 import { useNavigate } from "react-router-dom";
-import { object, string } from "yup";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import type { IPersonalFormValues } from "../Models/PersonalModels";
-import { PersonalEmail } from "../Service/PersonalService";
+import { usePersonalProvider } from "../Provider/PersonalProvider";
+import { CircleOverlay } from "../../../components/animation/CircleOverlay";
 
 interface CustomSectionProps {
   children: React.ReactNode;
   className: string;
 }
 
-interface PersonalFormData {
-  vision: string;
-  name: string;
-  email: string;
-  phone: string;
-  agreed: boolean;
-}
 
-interface FormErrors {
-  vision?: string;
-  name?: string;
-  email?: string;
-  phone?: string;
-  agreed?: string;
-  [key: string]: string | undefined;
-}
 
-type FormStatus = "idle" | "sending" | "success" | "error";
-// ** TİPLƏRİN SONU **
 
-// CustomSection komponenti
 const CustomSection: React.FC<CustomSectionProps> = ({
   children,
   className,
 }) => <section className={className}>{children}</section>;
 
-// Şəkil URL-ləri
+
 const IMAGE_URLS = [
   "/src/assets/images/anime1.jpg",
   "/src/assets/images/anime2.jpg",
@@ -53,13 +32,9 @@ const SLIDER_IMAGES_BOTTOM = [
   ...IMAGE_URLS.slice(2),
 ];
 
-// Email Regex funksiyası
-const validateEmail = (email: string): boolean => {
-  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return regex.test(email);
-};
 
-// Yeni Banner Komponenti
+
+
 const CollectionBanner: React.FC = () => {
   const navigate = useNavigate();
 
@@ -76,13 +51,11 @@ const CollectionBanner: React.FC = () => {
               <span className="inspiration-tag">INSPIREZ-VOUS</span>
               <h2>Discover my collection of paintings</h2>
               <p className="description">
-                Explorez ma collection complète d'œuvres pour vous immerger dans
-                mon univers artistique.
+           Explore my complete collection of works to immerse yourself in my artistic world.
               </p>
             </div>
             <button className="explore-button" onClick={handleExploreClick}>
-              <span className="button-text">Explorer la galerie</span>
-              <span className="arrow-icon">→</span>
+              <span className="button-text">Explore the gallery</span>
             </button>
           </div>
         </div>
@@ -92,48 +65,15 @@ const CollectionBanner: React.FC = () => {
 };
 
 const Personal: React.FC = () => {
-  const personalChema = object({
-    firsName: string()
-      .trim()
-      .required()
-      .matches(
-        /^[A-Za-zƏəÖöÜüĞğÇçİıŞş]{2,}$/,
-        "Name must contain at least 2 letters"
-      ),
-    email: string()
-      .trim()
-      .required()
-      .matches(
-        /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-        "Please enter a valid email address"
-      ),
-    phone: string()
-      .trim()
-      .required()
-      .matches(/^\+?[0-9]{7,15}$/, "Please enter a valid phone number"),
-    vision: string()
-      .required()
-      .matches(
-        /^[A-Za-zƏəÖöÜüĞğÇçİıŞş]{2,}$/,
-        "Name must contain at least 2 letters"
-      ),
-  });
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<IPersonalFormValues>({
-    resolver: yupResolver(personalChema),
-  });
-  const onSubmit = async (data: IPersonalFormValues) => {
-    try {
-      await PersonalEmail(data);
-      reset();
-    } catch (error) {
-      console.log(error);
+   const { loading, formMethods, onSubmit } = usePersonalProvider();
+   const {
+     register,
+     formState: { errors },
+   } = formMethods;
+
+   if(loading){
+      return <CircleOverlay />
     }
-  };
   return (
     <CustomSection className="personal">
       <div className="container">
@@ -159,7 +99,7 @@ const Personal: React.FC = () => {
             <div key={`top-${index}`} className="slide slide-top-hover">
               <img
                 src={url}
-                alt={`Özəl Sənət Əsəri Nümunəsi ${index}`}
+                alt={`Custom artwork sample ${index}`}
                 loading="lazy"
                 className="slide-image"
                 onError={(e) => {
@@ -176,7 +116,7 @@ const Personal: React.FC = () => {
             <div key={`bottom-${index}`} className="slide slide-bottom-hover">
               <img
                 src={url}
-                alt={`Özəl Sənət Əsəri Nümunəsi ${index}`}
+                alt={`Custom artwork sample ${index}`}
                 loading="lazy"
                 className="slide-image"
                 onError={(e) => {
@@ -197,7 +137,7 @@ const Personal: React.FC = () => {
                 <h2 className="section-title">Your Project</h2>
                 <form
                   className="project-form"
-                  onSubmit={handleSubmit(onSubmit)}
+                  onSubmit={onSubmit}
                 >
                   <div className="form-group box-group">
                     <label>
@@ -206,7 +146,7 @@ const Personal: React.FC = () => {
                     <textarea
                       placeholder="Describe your project..."
                       {...register("vision", {
-                        required: "əhmət olmasa layihə vizyonunuzu daxil edin.",
+                        required: "Please enter your project vision.",
                       })}
                     ></textarea>
                     {errors.vision && (
@@ -222,7 +162,7 @@ const Personal: React.FC = () => {
                         <input
                           type="text"
                           {...register("firsName", {
-                            required: "Birinci ad tələb olunur",
+                            required: "First name is required",
                           })}
                         />
                         {errors.firsName && (
@@ -238,7 +178,7 @@ const Personal: React.FC = () => {
                         <input
                           type="email"
                           {...register("email", {
-                            required: "Email tələb olunur",
+                            required: "Email is required",
                           })}
                         />
                         {errors.email && (
@@ -249,11 +189,11 @@ const Personal: React.FC = () => {
                       </div>
 
                       <div className="form-group line-group">
-                        <label>Phone</label>
+                        <label>Phone <span>*</span></label>
                         <input
                           type="tel"
                           {...register("phone", {
-                            required: "Telefon nömrəsi tələb olunur",
+                            required: "Phone number is required",
                           })}
                         />
                         {errors.phone && (
@@ -266,25 +206,15 @@ const Personal: React.FC = () => {
                   </div>
 
                   <div className="form-footer">
-                    <div className="checkbox-wrapper">
-                      <input type="checkbox" id="privacy" />
-                      <label htmlFor="privacy">
-                        I agree that my personal data will be used solely for
-                        the purpose of processing my custom order request. This
-                        data will not be shared with third parties and will be
-                        stored in accordance with the privacy policy .
-                      </label>
-                    </div>
+
 
                     <button
                       type="submit"
                       className="submit-btn"
-                      disabled={status === "sending"}
-                      style={{ opacity: status === "sending" ? 0.7 : 1 }}
+                      disabled={loading}
+                      style={{ opacity: loading ? 0.7 : 1 }}
                     >
-                      {status === "sending"
-                        ? "Sending..."
-                        : "Submit my application"}
+                      {loading ? "Sending..." : "Submit my application"}
                     </button>
                   </div>
                 </form>

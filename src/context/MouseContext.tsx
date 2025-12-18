@@ -1,70 +1,98 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState, useRef } from "react";
 import { useLocation } from "react-router-dom";
 
 interface MouseContextProps {
   x: number;
   y: number;
 }
-// const bgColorsForPath = ["/contact"];
+
+interface TrailPoint {
+  id: number;
+  x: number;
+  y: number;
+  rotation: number;
+  scale: number;
+  offsetX: number;
+  offsetY: number;
+}
 
 const MouseContext = createContext<MouseContextProps>({ x: 0, y: 0 });
-// const path = useLocation();
-// const isBlackBg = bgColorsForPath.includes(path?.pathname);
+
+
+const darkBgPaths = ["/contact", "/who", "/commande-personnalisee"];
+
 export const useMouse = () => useContext(MouseContext);
 
 export const MouseProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [trail, setTrail] = useState<{ id: number; x: number; y: number }[]>(
-    []
-  );
-  const [lastMove, setLastMove] = useState<number>(Date.now());
-  const [visible, setVisible] = useState(true);
+  const [trail, setTrail] = useState<TrailPoint[]>([]);
+  const lastTrailTime = useRef<number>(0);
+  const location = useLocation();
+  
+
+  const isDarkBg = darkBgPaths.some(path => location.pathname.startsWith(path));
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      setLastMove(Date.now());
-      setVisible(true);
+      const now = Date.now();
 
-      setTrail((prev) => [
-        ...prev.slice(-15), // maksimum 15 hisse
-        { id: Date.now(), x: e.clientX, y: e.clientY },
-      ]);
+
+      if (now - lastTrailTime.current > 20) {
+        lastTrailTime.current = now;
+        
+
+        const randomRotation = Math.random() * 180 - 90;
+        const randomScale = 0.7 + Math.random() * 0.6;
+        const randomOffsetX = (Math.random() - 0.5) * 12;
+        const randomOffsetY = (Math.random() - 0.5) * 10;
+        
+        setTrail((prev) => [
+          ...prev.slice(-30),
+          { 
+            id: now, 
+            x: e.clientX, 
+            y: e.clientY,
+            rotation: randomRotation,
+            scale: randomScale,
+            offsetX: randomOffsetX,
+            offsetY: randomOffsetY
+          },
+        ]);
+      }
     };
 
-    const interval = setInterval(() => {
-      if (Date.now() - lastMove > 1000) {
-        setVisible(false);
-        setTrail([]);
-      }
-    }, 200);
+
+    const cleanupInterval = setInterval(() => {
+      const now = Date.now();
+      setTrail((prev) => prev.filter((t) => now - t.id < 2500));
+    }, 80);
 
     window.addEventListener("mousemove", handleMouseMove);
     return () => {
-      clearInterval(interval);
+      clearInterval(cleanupInterval);
       window.removeEventListener("mousemove", handleMouseMove);
     };
-  }, [lastMove]);
+  }, []);
 
   return (
     <MouseContext.Provider value={{ x: 0, y: 0 }}>
       {children}
-      {visible && (
-        <div className="smoke-trail">
-          {trail.map((t) => (
-            <span
-              // key={t.id}
-              className="smoke"
-              style={{
-                left: t.x + "px",
-                top: t.y + "px",
-                // background: isBlackBg ? "white" : "black",
-                
-              }}
-            />
-          ))}
-        </div>
-      )}
+      <div className={`smoke-trail ${isDarkBg ? 'smoke-light' : 'smoke-dark'}`}>
+        {trail.map((t, index) => (
+          <span
+            key={t.id}
+            className="smoke"
+            style={{
+              left: t.x + t.offsetX + "px",
+              top: t.y + t.offsetY + "px",
+              transform: `translate(-50%, -50%) rotate(${t.rotation}deg) scale(${t.scale})`,
+              animationDelay: `${index * 0.02}s`,
+            }}
+          />
+        ))}
+      </div>
     </MouseContext.Provider>
   );
 };
+

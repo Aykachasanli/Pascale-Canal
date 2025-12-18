@@ -1,5 +1,5 @@
 import emailjs from "emailjs-com";
-import type { IPersonalFormValues } from "../Models/PersonalModels";
+import type { IPersonalFormValues } from "../Model/PersonalModels";
 export const PersonalEmail = (data: IPersonalFormValues) => {
   return emailjs.send(
     "service_h6tlr3i",

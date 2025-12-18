@@ -1,7 +1,7 @@
 import { useEffect, useCallback } from "react";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { fetchProducts, fetchProductById } from "../../../store/homeSlice"; 
-import type { Product } from "../../../store/homeSlice"; 
+import type { Product } from "../Model/HomeModel"; 
 
 interface HomeProviderHook {
     products: Product[];
