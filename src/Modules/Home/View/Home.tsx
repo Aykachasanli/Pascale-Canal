@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { useHomeProvider } from "../Provider/HomeProvider";
 import CustomSection from "../../../components/CustomSection";
 
@@ -17,7 +17,7 @@ const ImmortalizeBanner: React.FC = () => {
   return (
     <div className="immortalize-banner">
       <div className="banner-content">
-        <span className="novelty-tag">NOVELTY</span>
+       
         <h2>Immortalize your memory in a unique painting</h2>
         <p>
           Transform your photographs into unique paintings. A lasting memory,
@@ -35,10 +35,6 @@ const Home: React.FC = () => {
   const { products, loading, error } = useHomeProvider();
   const navigate = useNavigate();
   
-  const { scrollY } = useScroll();
-  const yTitle = useTransform(scrollY, [0, 500], [0, -600]);
-  const ySubtitle = useTransform(scrollY, [0, 500], [0, -600]); 
-  const rotateBadge = useTransform(scrollY, [0, 500], [-10, 25]); 
 
   const content = useMemo(() => {
     if (loading) {
@@ -80,7 +76,7 @@ const Home: React.FC = () => {
           <div className="content">
             <motion.h1 
               className="title"
-              style={{ y: yTitle }}
+
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: false }}
@@ -91,7 +87,6 @@ const Home: React.FC = () => {
                 className="badge"
                 style={{ 
                   display: 'inline-block',
-                  rotate: rotateBadge,
                 }}
                 initial={{ scale: 0.5, opacity: 0 }}
                 whileInView={{ scale: 1, opacity: 1 }}
@@ -104,7 +99,7 @@ const Home: React.FC = () => {
 
             <motion.p 
               className="subtitle"
-              style={{ y: ySubtitle }}
+
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: false }}

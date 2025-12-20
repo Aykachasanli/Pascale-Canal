@@ -4,6 +4,8 @@ import Details from "../Modules/Home/View/Details.tsx";
 import Contact from "../Modules/Contact/View/Contact.tsx";
 import Personal from "../Modules/Personal/View/Personal.tsx";
 import Who from "../Modules/Who/View/Who.tsx";
+import NotFound from "../Modules/NotFound/View/NotFound.tsx";
+
 
 
 
@@ -57,6 +59,14 @@ const pagesList: IPage[] = [
     element: <Who />, 
     is_visible: true,
     for_navigation: true, 
+  },
+  {
+    id: "not-found",
+    title: "Not Found",
+    path: "*",
+    element: <NotFound />,
+    is_visible: true,
+    for_navigation: false,
   },
 
 ];

@@ -7,10 +7,10 @@ const PascaleRouter = () => {
   const location = useLocation();
 
   return (
-    <AnimatePresence mode="wait">
-      <>
-        <CircleOverlay key={"overlay" + location.pathname} />
+    <>
+      <CircleOverlay key={"overlay" + location.pathname} />
 
+      <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
           {pagesList
             .filter((page) => page.is_visible)
@@ -31,8 +31,8 @@ const PascaleRouter = () => {
               />
             ))}
         </Routes>
-      </>
-    </AnimatePresence>
+      </AnimatePresence>
+    </>
   );
 };
 

@@ -86,7 +86,7 @@ const Details: React.FC = () => {
 
         <div className="info-side">
           <div className="format">
-            <h2>Choose the format</h2>
+         
             <div className="option active">
               <div>
 
