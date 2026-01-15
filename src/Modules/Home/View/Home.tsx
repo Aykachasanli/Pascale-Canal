@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import { useHomeProvider } from "../Provider/HomeProvider";
 import CustomSection from "../../../components/CustomSection";
 
-const IMAGE_BASE_URL = import.meta.env.VITE_IMAGE_URL;
 
 
 const ImmortalizeBanner: React.FC = () => {
@@ -56,7 +55,7 @@ const Home: React.FC = () => {
             onClick={() => navigate(`/details/${product._id}`)}
           >
             <img
-              src={`${IMAGE_BASE_URL}${product.productImage}`}
+              src={`${product.productImage}`}
               alt={product.name}
             />
             <div className="title">

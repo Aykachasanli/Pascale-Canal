@@ -34,7 +34,7 @@ const Details: React.FC = () => {
         artworkId: selectedProduct._id,
         name: selectedProduct.name,
         price: selectedProduct.price,
-        imageUrl: `${IMAGE_BASE_URL}${selectedProduct.productImage}`,
+        imageUrl: `${selectedProduct.productImage}`,
         selectedFormat: {
           name: "Œuvre originale",
           price: selectedProduct.price,
@@ -79,7 +79,7 @@ const Details: React.FC = () => {
       <section className="details-content">
         <div className="image-side">
           <img
-            src={`${IMAGE_BASE_URL}${selectedProduct.productImage}`}
+            src={`${selectedProduct.productImage}`}
             alt={selectedProduct.name}
           />
         </div>
