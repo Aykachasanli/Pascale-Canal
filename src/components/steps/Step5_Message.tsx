@@ -1,5 +1,3 @@
-import React from 'react'
-
 const Step5_Message = () => {
   return (
     <div>Step5_Message</div>

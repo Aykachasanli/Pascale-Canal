@@ -15,7 +15,6 @@ const bgColorsForPath = ["/contact", "/personal", "/who"];
 const Header = () => {
   const path = useLocation();
   const isBlackBg = bgColorsForPath.includes(path?.pathname);
-  const [isOpen, setIsOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
