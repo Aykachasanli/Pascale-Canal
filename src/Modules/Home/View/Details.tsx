@@ -7,18 +7,12 @@ import {
 } from "../../../store/homeSlice";
 import { openModal } from "../../../store/modalSlice";
 import CustomSection from "../../../components/CustomSection";
-import { getCleanImageUrl } from "../../../utils/urlHelper";
 
 const Details: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { selectedProduct, loading } = useAppSelector((state) => state.home);
-
-
-  const IMAGE_BASE_URL =
-    import.meta.env.VITE_IMAGE_URL || "http://localhost:8000/";
-
   useEffect(() => {
     if (id) {
       dispatch(fetchProductById(id));
@@ -80,7 +74,7 @@ const Details: React.FC = () => {
       <section className="details-content">
         <div className="image-side">
           <img
-            src={getCleanImageUrl(selectedProduct.productImage)}
+            src={`${selectedProduct.productImage}`}
             alt={selectedProduct.name}
           />
         </div>
