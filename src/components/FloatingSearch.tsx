@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../store/hooks";
 import logo from "../assets/images/logo-reversed.avif"; 
+import { getCleanImageUrl } from "../utils/urlHelper"; 
 
 const FloatingSearch = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -84,7 +85,7 @@ const FloatingSearch = () => {
                 className="search-result-item"
                 onClick={() => handleProductClick(product._id)}
               >
-                  <img src={`${import.meta.env.VITE_IMAGE_URL}${product.productImage}`} alt={product.name} />
+                  <img src={getCleanImageUrl(product.productImage)} alt={product.name} />
                   <span>{product.name}</span>
               </div>
             ))}

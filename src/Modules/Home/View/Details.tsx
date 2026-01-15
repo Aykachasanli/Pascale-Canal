@@ -7,6 +7,7 @@ import {
 } from "../../../store/homeSlice";
 import { openModal } from "../../../store/modalSlice";
 import CustomSection from "../../../components/CustomSection";
+import { getCleanImageUrl } from "../../../utils/urlHelper";
 
 const Details: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -79,7 +80,7 @@ const Details: React.FC = () => {
       <section className="details-content">
         <div className="image-side">
           <img
-            src={`${selectedProduct.productImage}`}
+            src={getCleanImageUrl(selectedProduct.productImage)}
             alt={selectedProduct.name}
           />
         </div>

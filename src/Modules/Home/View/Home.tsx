@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useHomeProvider } from "../Provider/HomeProvider";
 import CustomSection from "../../../components/CustomSection";
+import { getCleanImageUrl } from "../../../utils/urlHelper";
 
 
 
@@ -55,7 +56,7 @@ const Home: React.FC = () => {
             onClick={() => navigate(`/details/${product._id}`)}
           >
             <img
-              src={`${product.productImage}`}
+              src={getCleanImageUrl(product.productImage)}
               alt={product.name}
             />
             <div className="title">
