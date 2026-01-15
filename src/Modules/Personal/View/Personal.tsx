@@ -7,22 +7,26 @@ interface CustomSectionProps {
   className: string;
 }
 
-
-
-
 const CustomSection: React.FC<CustomSectionProps> = ({
   children,
   className,
 }) => <section className={className}>{children}</section>;
 
 
+import anime1 from "../../../assets/images/anime1.jpg";
+import anime2 from "../../../assets/images/anime2.jpg";
+import anime3 from "../../../assets/images/anime3.jpg";
+import anime4 from "../../../assets/images/anime4.jpg";
+import anime5 from "../../../assets/images/anime5.jpg";
+import anime6 from "../../../assets/images/anime6.jpg";
+
 const IMAGE_URLS = [
-  "/src/assets/images/anime1.jpg",
-  "/src/assets/images/anime2.jpg",
-  "/src/assets/images/anime3.jpg",
-  "/src/assets/images/anime4.jpg",
-  "/src/assets/images/anime5.jpg",
-  "/src/assets/images/anime6.jpg",
+  anime1,
+  anime2,
+  anime3,
+  anime4,
+  anime5,
+  anime6,
 ];
 
 const SLIDER_IMAGES_TOP = [...IMAGE_URLS, ...IMAGE_URLS, ...IMAGE_URLS];
