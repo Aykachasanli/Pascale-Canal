@@ -84,7 +84,7 @@ const FloatingSearch = () => {
                 className="search-result-item"
                 onClick={() => handleProductClick(product._id)}
               >
-                  <img src={`${import.meta.env.VITE_IMAGE_URL}${product.productImage}`} alt={product.name} />
+                  <img src={product.productImage} alt={product.name} />
                   <span>{product.name}</span>
               </div>
             ))}
