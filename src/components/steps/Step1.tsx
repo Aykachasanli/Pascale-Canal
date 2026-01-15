@@ -10,7 +10,6 @@ interface Step1Props {
   product: ModalProductItem;
 }
 
-const IMAGE_BASE_URL = import.meta.env.VITE_IMAGE_URL;
 
 const Step1: React.FC<Step1Props> = ({ product }) => {
   const dispatch = useAppDispatch();
@@ -46,7 +45,7 @@ const Step1: React.FC<Step1Props> = ({ product }) => {
       artworkId: item._id,
       name: item.name,
       price: item.price,
-      imageUrl: IMAGE_BASE_URL + item.productImage,
+      imageUrl: item.productImage,
       selectedFormat: {
         name: "Œuvre originale",
         price: item.price,
@@ -110,7 +109,7 @@ const Step1: React.FC<Step1Props> = ({ product }) => {
                 }`}
               >
                 <img
-                  src={`${IMAGE_BASE_URL}${item.productImage}`}
+                  src={item.productImage}
                   alt={item.name}
                   onLoad={handleImageLoad}
                   onError={handleImageLoad}
